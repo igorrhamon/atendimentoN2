@@ -8,6 +8,7 @@ use App\Tecnico;
 use App\User;
 use Illuminate\Http\Request;
 use App\Location;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -32,7 +33,8 @@ class HomeController extends Controller
         $news = News::paginate(6);
 //        return $news->supervisor->user->name;
 //        return $news->supervisor->user->name;
-        return view('news.home',compact('news'));
+        $id = Auth::id();
+        return view('news.home',compact('news','id'));
     }
 
     public function supervisorAdmin(){

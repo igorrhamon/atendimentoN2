@@ -1,0 +1,1 @@
+@extends('tecnicos.layout.layoutIniciarAtendimento')

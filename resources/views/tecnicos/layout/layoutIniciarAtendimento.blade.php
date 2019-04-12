@@ -13,6 +13,7 @@
     <!-- CSS dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="http://n2/css/app.css">
+    <link rel="stylesheet" href="s/custom-variables-bootstrap-2019-04-10.css">
 </head>
 
 <body class="">
@@ -26,41 +27,32 @@
         </div>
     </div>
 </div>
-<div class="py-5" >
+<div class="py-5 text-center">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="col-md-12" style="">
-                            <div class="row py-2">
-                                <div class="col-md-12">
-                                    <h2 class="">Técnicos Em Atendimento</h2>
-                                </div>
-                            </div>
-                            <div class="row py-2">
-                                @yield('navPainel')
+        <div class="row" >
+            <div class="mx-auto col-lg-6 col-10">
+                <h1>Iniciar Atendimento</h1>
+                <hr class="py-2">
+                <form class="text-left" method="POST" action="{{route('changeLocation')}}">
+                    @csrf
+                    <div class="form-group"> <label for="form16">Número do Chamado</label> <input type="text" class="form-control" id="form16" placeholder="20190327100000000"> </div>
+                    {{Form::hidden('id',$tecnico->id)}}
 
 
-                                <!-- Tab panes -->
-                                @yield('tabContent')
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="form17">Localização</label>
+                        <select name="location_id" class="form-control">
+                            @foreach($locations as $location)
+                                <option  @if($tecnico->location_id == $location->id) selected @endif value="{{$location->id}}">{{$location->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-4">
-                        <div class="col-md-12" style="">
-                            <div class="col-md-12">
-                                <h2 class="py-1 text-center">Artigos</h2>
-                                <hr class="w-25">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action active py-1"></a>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">Criar Artigo</li><a href="#" class="list-group-item list-group-item-action">Gerenciar Artigos</a>
-                                    <a href="#" class="list-group-item list-group-item-action">Apagar Artigos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+
+
+                     <button type="submit" class="btn btn-primary">Iniciar</button>
+                </form>
             </div>
         </div>
     </div>

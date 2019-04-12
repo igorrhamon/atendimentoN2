@@ -45,6 +45,11 @@ Route::get('/IsAvaliable','TecnicoController@showWhoIsAvaliable')->name('showWho
 
 Route::get('/newsRead/{id}','TecnicoController@newsRead')->name('newsRead');
 
+Route::get('/iniciarAtendimento/{id}','AtendimentoController@iniciarAtendimento')->name('iniciarAtendimento');
+Route::post('/iniciarAtendimento/','AtendimentoController@changeLocation')->name('changeLocation');
+
+
+
 
 
 /*
