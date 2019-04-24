@@ -4,7 +4,7 @@
     @foreach($news as $new)
         <div class="row">
             <div class="col-md-12">
-                <h1 class="display-4 py-1">{{$new->title}}</h1>
+                <h1 class="display-4 py-1"><a href="{{route('openNewTecnico',$new->id)}}">{{$new->title}}</a></h1>
             </div>
         </div>
         <div class="row">

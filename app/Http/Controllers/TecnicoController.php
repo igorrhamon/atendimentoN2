@@ -91,7 +91,8 @@ class TecnicoController extends Controller
     }
 
     public function changeStatus(Request $request){
-        $tecnico = Tecnico::findOrFail($request->id);
+        $user = User::findOrFail($request->id);
+        $tecnico = tecnico::findorfail($user->tecnico->id);
         try{
             $tecnico->update($request->all());
             return redirect('changeStatus');

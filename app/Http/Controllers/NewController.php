@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class NewController extends Controller
 {
     public  function openNewTecnico($id){
-        $new = News::all()->where('id','=',$id);
-        return $new;
+        $new = News::findOrFail($id);
+        DB::table('news_tecnico')->insert(['news_id'=>$new->id,'tecnico_id'=>Auth::id()]);
+        $noRead = new NewController();
+        $naoLidas = $noRead->noRead(Auth::id());
+        return view('news.openNew',compact('new','naoLidas'));
     }
 
     public function createNewForm(){
@@ -45,6 +50,14 @@ class NewController extends Controller
         $news = News::all();
 
         return view('news.home',compact('news'));
+    }
+
+    public function noRead($id){
+        $news = News::whereDoesntHave('whoRead' ,function($query){
+            $query->where('tecnico_id',Auth::id());
+        })->get();
+        return $news;
+
     }
 
 //    public function whoRead($id){

@@ -40,4 +40,8 @@ class User extends \TCG\Voyager\Models\User
     public function supervisor(){
         return $this->hasOne('App\Supervisor');
     }
+
+    public function tecnico(){
+        return $this->hasOne('App\Tecnico','user_id');
+    }
 }

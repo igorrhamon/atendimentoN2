@@ -66,6 +66,7 @@ Route::get('/deleteNew/','NewController@deleteNewForm')->name('deleteNew');
 Route::post('/deleteNew/','NewController@deleteNew')->name('deleteNew');
 
 Route::get('/homeNews','HomeController@index')->name('showAllNews');
+Route::get('/news/whoRead/{id}','NewController@noRead')->name('whoRead');
 
 
 /*

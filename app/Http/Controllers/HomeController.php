@@ -31,10 +31,12 @@ class HomeController extends Controller
     public function index()
     {
         $news = News::paginate(6);
-//        return $news->supervisor->user->name;
-//        return $news->supervisor->user->name;
         $id = Auth::id();
-        return view('news.home',compact('news','id'));
+        $noRead = new NewController();
+        $naoLidas = $noRead->noRead($id);
+        $user = User::findOrFail($id);
+        $location = Location::findOrFail($user->tecnico->location_id);
+        return view('news.home',compact('news','id','naoLidas', 'user','location'));
     }
 
     public function supervisorAdmin(){

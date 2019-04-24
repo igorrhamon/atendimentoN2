@@ -40,7 +40,8 @@
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action active py-1">Suas Informações</a>
                             <a href="#" class="list-group-item list-group-item-action">Tempo de Atendimento hoje:</a>
-                            @auth()<a href="{{route('iniciarAtendimento',$id)}}" class="list-group-item list-group-item-action">Iniciar Atendimento</a>@endauth
+                            @auth()<a href="{{route('iniciarAtendimento',Auth()->id())}}" class="list-group-item list-group-item-action">Iniciar Atendimento</a>@endauth
+                            <a href="#" class="list-group-item list-group-item-action">Localização Atual: {{$location->name}}</a>
                         </div>
                     </div>
                 </div>
@@ -50,7 +51,7 @@
                         <hr class="w-25">
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action active py-1">Suas Informações</a>
-                            <li class="list-group-item d-flex justify-content-between align-items-center"> Não Lido <span class="badge badge-primary badge-pill">14</span> </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center"> Não Lido <span class="badge badge-primary badge-pill">{{$naoLidas->count()}}</span> </li>
                         </div>
                     </div>
                 </div>
