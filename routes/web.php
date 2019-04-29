@@ -17,8 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
-Auth::routes();
+Route::get('/auth/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/home', 'TecnicoController@all')->name('home');
 
@@ -45,8 +44,9 @@ Route::get('/IsAvaliable','TecnicoController@showWhoIsAvaliable')->name('showWho
 
 Route::get('/newsRead/{id}','TecnicoController@newsRead')->name('newsRead');
 
-Route::get('/iniciarAtendimento/{id}','AtendimentoController@iniciarAtendimento')->name('iniciarAtendimento');
-Route::post('/iniciarAtendimento/','AtendimentoController@changeLocation')->name('changeLocation');
+Route::get('/iniciarAtendimento/{id}','AtendimentoController@iniciarAtendimentoForm')->name('iniciarAtendimento');
+Route::post('/iniciarAtendimento/','AtendimentoController@iniciarAtendimento')->name('changeLocation');
+Route::get('/encerrarAtendimento/{id}','AtendimentoController@encerraAtendimento')->name('encerraAtendimento');
 
 
 
@@ -66,6 +66,7 @@ Route::get('/deleteNew/','NewController@deleteNewForm')->name('deleteNew');
 Route::post('/deleteNew/','NewController@deleteNew')->name('deleteNew');
 
 Route::get('/homeNews','HomeController@index')->name('showAllNews');
+Route::get('/homeNewsNaoLido','HomeController@indexNaoLido')->name('indexNaoLido');
 Route::get('/news/whoRead/{id}','NewController@noRead')->name('whoRead');
 
 

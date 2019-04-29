@@ -33,26 +33,7 @@
             <div class="mx-auto col-lg-6 col-10">
                 <h1>Iniciar Atendimento</h1>
                 <hr class="py-2">
-                <form class="text-left" method="POST" action="{{route('changeLocation')}}">
-                    @csrf
-                    <div class="form-group"> <label for="form16">Número do Chamado</label> <input type="text" class="form-control" id="form16" placeholder="20190327100000000"> </div>
-                    {{Form::hidden('id',$tecnico->id)}}
-
-
-                    <div class="form-group">
-                        <label for="form17">Localização</label>
-                        <select name="location_id" class="form-control">
-                            @foreach($locations as $location)
-                                <option  @if($tecnico->location_id == $location->id) selected @endif value="{{$location->id}}">{{$location->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-
-
-
-                     <button type="submit" class="btn btn-primary">Iniciar</button>
-                </form>
+                @yield('formIniciarAtendimento')
             </div>
         </div>
     </div>

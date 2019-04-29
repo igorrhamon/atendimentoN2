@@ -24,6 +24,12 @@ class Tecnico extends Model
     public function newsRead(){
         return $this->belongsToMany('App\News');
     }
+    public function atendimentos(){
+        return $this->hasMany('App\Atendimento','tecnico_id');
+    }
+    public function atendimentosLast(){
+        return $this->hasMany('App\Atendimento','tecnico_id')->latest();
+    }
 
 
 }

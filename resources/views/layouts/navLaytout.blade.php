@@ -8,11 +8,13 @@
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="{{route('showAllNews')}}">Home</a>
                 </li>
+                @if(Auth::user()->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="{{route('supervisorAdmin')}}">Técnicos</a>
                 </li>
+                @endif
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="#">Sair</a>
+                    <a class="nav-link mx-2" href="{{route('logout')}}">Sair</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

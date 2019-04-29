@@ -9,12 +9,12 @@
     </div>
 @endsection
 @section('tabContent')
-
     <div class="tab-content">
         @foreach($locations as $location)
             <div class="tab-pane" id="location{{$location->id}}" role="tabpanel">
                 @foreach($location->tecnicos as $tecnico)
                     {{$tecnico->user->name}}<BR>
+                    {{$tecnico->atendimentosLast}}<BR>
                 @endforeach
             </div>
         @endforeach

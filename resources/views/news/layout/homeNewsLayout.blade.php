@@ -17,7 +17,7 @@
 
 <body class="">
 @include('layouts.navLaytout')
-<div class="d-flex align-items-center bg-info h-25">
+<div class="d-flex align-items-center bg-info  h-25" style="	background-image: url(http://www.senado.leg.br/noticias/TV/scripts/GetImagemMidia.asp?COD_MIDIA=444267);	background-position: center;	background-size: 70%;	background-repeat: no-repeat;">
     <div class="container">
         <div class="row">
             <div class="mx-auto text-center col-md-6">
@@ -35,14 +35,18 @@
             <div class="col-md-4 px-2">
                 <div class="row my-2 p-1">
                     <div class="col-md-12">
-                        <h2 class="py-1 text-center">Atendimento<br></h2>
-                        <hr class="w-25">
-                        <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action active py-1">Suas Informações</a>
-                            <a href="#" class="list-group-item list-group-item-action">Tempo de Atendimento hoje:</a>
-                            @auth()<a href="{{route('iniciarAtendimento',Auth()->id())}}" class="list-group-item list-group-item-action">Iniciar Atendimento</a>@endauth
-                            <a href="#" class="list-group-item list-group-item-action">Localização Atual: {{$location->name}}</a>
-                        </div>
+{{--                        @if(!Auth::user()->isAdmin())--}}
+                            <h2 class="py-1 text-center">Atendimento<br></h2>
+                            <hr class="w-25">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action active py-1">Suas Informações</a>
+                                <a href="#" class="list-group-item list-group-item-action">Tempo de Atendimento hoje:</a>
+                                @if(Auth()->user()->tecnico->status == 0)<a href="{{route('iniciarAtendimento',Auth()->id())}}" class="list-group-item list-group-item-action">Iniciar Atendimento</a>@endif
+                                @if(Auth()->user()->tecnico->status == 1)<a href="{{route('encerraAtendimento',Auth()->id())}}" class="list-group-item list-group-item-action active py-1">Encerrar Atendimento</a>@endif
+                                <a href="#" class="list-group-item list-group-item-action">Localização Atual: {{$location->name}}</a>
+
+                            </div>
+{{--                        @endif--}}
                     </div>
                 </div>
                 <div class="row my-2 p-1">
@@ -51,7 +55,7 @@
                         <hr class="w-25">
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action active py-1">Suas Informações</a>
-                            <li class="list-group-item d-flex justify-content-between align-items-center"> Não Lido <span class="badge badge-primary badge-pill">{{$naoLidas->count()}}</span> </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center"> <a href="{{route('indexNaoLido')}}">Não Lido </a> <span class="badge badge-primary badge-pill">{{$naoLidas->count()}}</span> </li>
                         </div>
                     </div>
                 </div>
@@ -60,7 +64,7 @@
                         <h2 class="text-center">Links Importantes</h2>
                         <hr class="w-25">
                         <div class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">Base&nbsp;</li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center active py-1">Base&nbsp;</li>
                             <li class="list-group-item d-flex justify-content-between align-items-start"><br></li>
                         </div>
                     </div>

@@ -57,7 +57,13 @@ class NewController extends Controller
             $query->where('tecnico_id',Auth::id());
         })->get();
         return $news;
+    }
 
+    public function noReadPaginate($id){
+        $news = News::whereDoesntHave('whoRead' ,function($query){
+            $query->where('tecnico_id',Auth::id());
+        })->paginate(6);
+        return $news;
     }
 
 //    public function whoRead($id){

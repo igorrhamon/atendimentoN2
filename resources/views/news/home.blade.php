@@ -11,7 +11,6 @@
             <div class="col-md-12">
                 <ul class="list-inline">
                     <li class="list-inline-item">{{$new->supervisor->user->name}}<br></li>
-{{--                    <li class="list-inline-item">{{date('d-m-y',$new->updated_at)}}</li>--}}
                     <li class="list-inline-item">Tags</li>
                 </ul>
             </div>

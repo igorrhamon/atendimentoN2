@@ -44,4 +44,8 @@ class User extends \TCG\Voyager\Models\User
     public function tecnico(){
         return $this->hasOne('App\Tecnico','user_id');
     }
+
+    public function isAdmin(){
+         if( $this->role_id == '1') return true;
+    }
 }

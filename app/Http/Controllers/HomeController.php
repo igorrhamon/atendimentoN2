@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Atendimento;
 use App\News;
 use App\Supervisor;
 use App\Tecnico;
@@ -39,18 +40,21 @@ class HomeController extends Controller
         return view('news.home',compact('news','id','naoLidas', 'user','location'));
     }
 
+    public function indexNaoLido(){
+        $id = Auth::id();
+        $noRead = new NewController();
+        $naoLidas = $noRead->noReadPaginate($id);
+
+        $user = User::findOrFail($id);
+        $location = Location::findOrFail($user->tecnico->location_id);
+        $news = $naoLidas;
+        return view('news.home',compact('news','id','naoLidas', 'user','location'));
+    }
+
     public function supervisorAdmin(){
 
-        //@todo: Verificar um modo de trazer os técnicos por localização.
-//        $tecnicos = Tecnico::has('location')->get();
-//        foreach ($tecnicos as $tecnico)echo  $tecnico->name.'<br>';
-//        $location = Location::all();
         $locations = Location::has('tecnicos')->get();
-//        'SELECT * FROM locations RIGHT JOIN tecnicos   ON tecnicos.location_id = locations.id');
-//        return var_dump($locations);
-//        foreach ($locations as $location) echo $location->name."<BR>";
-
-        return view('supervisor.supervisorAdmin',compact('locations'));
-
+//        $atendimentos = Atendimento::has('tecnico')->get();
+        return view('supervisor.supervisorAdmin',compact('locations','atendimentos'));
     }
 }
