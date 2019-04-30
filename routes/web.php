@@ -46,7 +46,7 @@ Route::get('/newsRead/{id}','TecnicoController@newsRead')->name('newsRead');
 
 Route::get('/iniciarAtendimento/{id}','AtendimentoController@iniciarAtendimentoForm')->name('iniciarAtendimento');
 Route::post('/iniciarAtendimento/','AtendimentoController@iniciarAtendimento')->name('changeLocation');
-Route::get('/encerrarAtendimento/{id}','AtendimentoController@encerraAtendimento')->name('encerraAtendimento');
+Route::get('/encerrarAtendimento/{idAtendimento}','AtendimentoController@encerraAtendimento')->name('encerraAtendimento');
 
 
 

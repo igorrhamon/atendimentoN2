@@ -28,7 +28,7 @@ class Tecnico extends Model
         return $this->hasMany('App\Atendimento','tecnico_id');
     }
     public function atendimentosLast(){
-        return $this->hasMany('App\Atendimento','tecnico_id')->latest();
+        return $this->hasMany('App\Atendimento','tecnico_id');
     }
 
 

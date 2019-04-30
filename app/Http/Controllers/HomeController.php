@@ -36,8 +36,16 @@ class HomeController extends Controller
         $noRead = new NewController();
         $naoLidas = $noRead->noRead($id);
         $user = User::findOrFail($id);
+        $atendimento = $user->tecnico->atendimentosLast->last();
+        $sumTime = new AtendimentoController();
+        $soma = $sumTime->AddPlayTime($user->tecnico->atendimentos);
+
+//        return $soma;
+//        return $tempoAtendimentoHoje;
+        $tempoAtendimentoHoje = $atendimento->sum('tempoDeAtendimento');
+//        return $tempoAtendimentoHoje;
         $location = Location::findOrFail($user->tecnico->location_id);
-        return view('news.home',compact('news','id','naoLidas', 'user','location'));
+        return view('news.home',compact('news','id','naoLidas', 'user','location', 'atendimento','tempoAtendimentoHoje','soma'));
     }
 
     public function indexNaoLido(){
