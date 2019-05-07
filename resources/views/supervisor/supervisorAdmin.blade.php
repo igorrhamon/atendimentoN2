@@ -14,7 +14,7 @@
             <div class="tab-pane" id="location{{$location->id}}" role="tabpanel">
                 @foreach($location->tecnicos as $tecnico)
                     {{$tecnico->user->name}}<BR>
-                    {{$tecnico->atendimentosLast}}<BR>
+                    {{$tecnico->atendimentos->last()}}<BR>
                 @endforeach
             </div>
         @endforeach

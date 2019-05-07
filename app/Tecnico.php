@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tecnico extends Model
 {
     protected $fillable = [
-        'status', 'location_id', 'user_id','remember_token','lunchTime','officeTime'
+        'status', 'location_id', 'user_id','remember_token','lunchTime','officeTime', 'tempoDeAtendimento',
     ];
 
     protected $hidden = ['password'];
@@ -29,6 +29,9 @@ class Tecnico extends Model
     }
     public function atendimentosLast(){
         return $this->hasMany('App\Atendimento','tecnico_id');
+    }
+    public function atendimentosHoje(){
+        return $this->hasMany('App\Atendimento','tecnico_id')->where('dataDoAtendimento','=',date("Y-m-d",strtotime(now())));
     }
 
 

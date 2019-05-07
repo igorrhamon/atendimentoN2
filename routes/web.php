@@ -19,11 +19,6 @@ Auth::routes();
 
 Route::get('/auth/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/home', 'TecnicoController@all')->name('home');
-
-Route::get('/testeTecnicos','TecnicoController@tecnicoAvaliable')->name('listTecnicos');
-Route::get('/changeStatus/{id}/{status}','TecnicoController@changeStatus')->name('changeStatus');
-//Route::get('/changeLocation/{id}/{location}','TecnicoController@changeLocation')->name('changeLocation');
 
 /*
  * Manage Tecnico
