@@ -13,6 +13,7 @@
     <!-- CSS dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="http://n2/css/app.css">
+    @include('layouts.chart')
 </head>
 
 <body class="">
@@ -62,6 +63,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 p-2" ><div id="chart"></div></div>
         </div>
     </div>
 </div>

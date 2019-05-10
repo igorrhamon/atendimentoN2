@@ -11,9 +11,9 @@ class NewController extends Controller
 {
     public  function openNewTecnico($id){
         $new = News::findOrFail($id);
-        DB::table('news_tecnico')->insert(['news_id'=>$new->id,'tecnico_id'=>Auth::id()]);
-        $noRead = new NewController();
-        $naoLidas = $noRead->noRead(Auth::id());
+        DB::table('news_tecnico')->insert(['news_id'=>$new->id,'tecnico_id'=>Auth::user()->tecnico->id]);
+//        $noRead = new NewController();
+        $naoLidas = $this->noRead(Auth::id());
         return view('news.openNew',compact('new','naoLidas'));
     }
 
@@ -54,7 +54,7 @@ class NewController extends Controller
 
     public function noRead($id){
         $news = News::whereDoesntHave('whoRead' ,function($query){
-            $query->where('tecnico_id',Auth::id());
+            $query->where('tecnico_id',Auth::user()->tecnico->id);
         })->get();
         return $news;
     }

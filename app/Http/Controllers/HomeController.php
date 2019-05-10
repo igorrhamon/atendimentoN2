@@ -36,16 +36,17 @@ class HomeController extends Controller
         $noRead = new NewController();
         $naoLidas = $noRead->noRead($id);
         $user = User::findOrFail($id);
-        $atendimento = $user->tecnico->atendimentosLast->last();
-        $sumTime = new AtendimentoController();
-        $soma = $sumTime->AddPlayTime($user->tecnico->atendimentos);
+        if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentos->last();
 
-//        return $soma;
-//        return $tempoAtendimentoHoje;
-        $tempoAtendimentoHoje = $atendimento->sum('tempoDeAtendimento');
-//        return $tempoAtendimentoHoje;
+
+        $atendimentoController = new AtendimentoController();
+        $tecnico = $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
+        $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
+        $tecnico->save();
+        $tempoAtendimentoHoje = $user ->tecnico->tempoDeAtendimento;
         $location = Location::findOrFail($user->tecnico->location_id);
-        return view('news.home',compact('news','id','naoLidas', 'user','location', 'atendimento','tempoAtendimentoHoje','soma'));
+
+        return view('news.home',compact('news','id','naoLidas', 'user','location', 'atendimento','tempoAtendimentoHoje','AnyChartJson'));
     }
 
     public function indexNaoLido(){
@@ -62,7 +63,11 @@ class HomeController extends Controller
     public function supervisorAdmin(){
 
         $locations = Location::has('tecnicos')->get();
-//        $atendimentos = Atendimento::has('tecnico')->get();
-        return view('supervisor.supervisorAdmin',compact('locations','atendimentos'));
+        $tecnicos = Tecnico::all();
+        $atendimentos = new AtendimentoController();
+        $tempoTotal = $atendimentos->totalAtendimentoHoje();
+        $AnyChartJson = $atendimentos->tempoPorTecnicoPorcentagem();
+//        $charJson =
+        return view('supervisor.supervisorAdmin',compact('locations','atendimentos','tecnicos','tempoTotal','AnyChartJson'));
     }
 }

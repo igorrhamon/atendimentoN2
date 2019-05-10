@@ -83,9 +83,15 @@ Route::post('/deleteLocation/','LocationController@deleteLocation')->name('delet
 Route::get('/tecnicosLocation/{id}','LocationController@whoIsOnLocation')->name('whoIsOnLocation');
 Route::get('/adminPainel','HomeController@supervisorAdmin')->name('supervisorAdmin');
 
+/*
+ *  Atendimento
+ */
+
+Route::get('/tempoTotal','AtendimentoController@tempoPorTecnicoPorcentagem')->name('tempoTotal');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
 
 
 });

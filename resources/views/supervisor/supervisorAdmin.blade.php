@@ -20,3 +20,9 @@
         @endforeach
     </div>
 @endsection
+
+@section('chartData')
+    @foreach($AnyChartJson as $tecnico)
+        ['{{$tecnico->user->name}}',{{$tecnico->tempoDeAtendimento}}],
+    @endforeach
+@endsection

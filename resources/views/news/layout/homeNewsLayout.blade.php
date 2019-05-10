@@ -13,6 +13,28 @@
     <!-- CSS dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <head>
+        <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js" type="text/javascript"></script>
+        <script>
+            anychart.onDocumentLoad(function () {
+                // create an instance of a pie chart
+                var chart = anychart.pie();
+                // set the data
+                chart.data([
+                        @foreach($AnyChartJson as $tecnico)
+                    ['{{$tecnico->user->name}}',{{$tecnico->tempoDeAtendimento}}],
+                    @endforeach
+
+                ]);
+                // set chart title
+                chart.title("Top 5 pancake fillings");
+                // set the container element
+                chart.container("chart");
+                // initiate chart display
+                chart.draw();
+            });
+        </script>
+    </head>
 </head>
 
 <body class="">

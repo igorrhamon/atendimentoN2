@@ -24,3 +24,6 @@
     @endforeach
 {{$news->render()}}
 @endsection
+@section('anyChart')
+
+@endsection

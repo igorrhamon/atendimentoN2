@@ -30,7 +30,10 @@
         <hr class="w-25">
         <div class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center active py-1">Base&nbsp;</li>
-            <li class="list-group-item d-flex justify-content-between align-items-start"><br></li>
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div id="chart"></div>
+
+            </li>
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@ class AtendimentoController extends Controller
 
     public function iniciarAtendimentoForm($id){
         $user = User::findOrFail($id);
-        $locations = Location::all();
+        $locations = Location::all()->where('name','!=','Central');
         $tecnico = $user->tecnico;
         return view('tecnicos.iniciarAtendimento',compact('locations','tecnico'));
     }
@@ -89,14 +89,13 @@ class AtendimentoController extends Controller
 
     public function atualizaTempoAtendimento($tecnico){
         $dataAtual = date("Y-m-d",strtotime(now()));
-//        $atendimentos = Atendimento::all()->where('tecnico_id','=',$tecnico->id)->where('dataDoAtendimento','=',$dataAtual);
         $atendimentos = $tecnico->atendimentosHoje;
 
         if ($atendimentos->isNotEmpty()){
             $ultimoAtendimento = $atendimentos->last();
             if($ultimoAtendimento->dataDoAtendimento == $dataAtual){
                 $tecnico->tempoDeAtendimento = $this->AddPlayTime($atendimentos);
-        }}else{
+            }}else{
             $tecnico->tempoDeAtendimento = "00:00:00";
         }
         return $tecnico;
@@ -108,4 +107,55 @@ class AtendimentoController extends Controller
         if($atendimentos->count()==0) $tecnico->tempoDeAtendimento = "00:00:00";
         return $tecnico;
     }
+
+    public function totalAtendimentoHoje(){
+        $tempoTotal = "00:00:00";
+        $atendimentos = Atendimento::all()->where('dataDoAtendimento','=',date("Y-m-d",strtotime(now())));
+        $tempoTotal= $this->AddPlayTime($atendimentos);
+        return $tempoTotal;
+    }
+
+    public function tempoEmSegundos($tempoDeAtendimento){
+            $acumulador = 0;
+            list($hour, $minute, $second) = explode(':', $tempoDeAtendimento);
+        $acumulador +=  (intval($hour )* 3600);
+                $acumulador +=  (intval($minute)* 60);
+        $acumulador +=   intval($second);
+        return $acumulador;
+    }
+    public function tempoEmPorcentagem($tempoDeAtendimento,$tempoTotal){
+        $tempoEmSegundo = $this->tempoEmSegundos($tempoDeAtendimento);
+        $tempoTotalEmSegundo = $this->tempoEmSegundos($tempoTotal);
+        $tempoPorcentagem = $tempoEmSegundo / $tempoTotalEmSegundo *100;
+        return $tempoPorcentagem;
+    }
+
+    public function tempoPorTecnicoPorcentagem(){
+        $tempoTotalSeg = $this->totalAtendimentoHoje();
+        $dataAtual = date('Y-m-d',strtotime(now()));
+        $tecnicos = Tecnico::whereHas('atendimentos', function ($query){
+            $query->where('dataDoAtendimento','=',date('Y-m-d',strtotime(now())));
+        })->get();
+        $tecnicos = $this->atualizaTempoAtendimentoTecnicos($tecnicos);
+        $tecnicos->transform(function ($item){
+            $tempoTotalSeg = $this->totalAtendimentoHoje();
+            $tecnico = New Tecnico;
+            $tecnico->user_id = $item['user_id'];
+            $tecnico = $this->atualizaTempoAtendimento($tecnico);
+//            $tecnico->save();
+            $tecnico->tempoDeAtendimento = $this->tempoEmPorcentagem($item['tempoDeAtendimento'],$tempoTotalSeg);
+            return $tecnico;
+        });
+
+        return $tecnicos;
+}
+
+    public function atualizaTempoAtendimentoTecnicos($tecnicos){
+        foreach ($tecnicos as $tecnico){
+            $tecnico = $this->atualizaTempoAtendimento($tecnico);
+        }
+        return $tecnicos;
+    }
+//SENADO1152
+
 }

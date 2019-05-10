@@ -28,4 +28,8 @@ class SupervisorController extends Controller
     }
     public function deleteLocation(){
     }
+
+
+
+
 }
