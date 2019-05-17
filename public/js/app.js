@@ -48803,6 +48803,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+Vue.component('notifications', __webpack_require__(/*! ./components/notifications/notifications.vue */ "./resources/js/components/notifications/notifications.vue").default);
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -48811,7 +48812,7 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#navDiv'
 });
 
 /***/ }),
@@ -48885,6 +48886,17 @@ throw new Error("Module build failed (from ./node_modules/vue-loader/lib/index.j
 
 /***/ }),
 
+/***/ "./resources/js/components/notifications/notifications.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/notifications/notifications.vue ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/vue-loader/lib/index.js):\nTypeError: Cannot read property 'parseComponent' of undefined\n    at parse (C:\\xampp\\htdocs\\Painel-master\\node_modules\\@vue\\component-compiler-utils\\dist\\parse.js:14:23)\n    at Object.module.exports (C:\\xampp\\htdocs\\Painel-master\\node_modules\\vue-loader\\lib\\index.js:67:22)");
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -48892,7 +48904,7 @@ throw new Error("Module build failed (from ./node_modules/vue-loader/lib/index.j
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/lib/loader.js):\n\r\nundefined\r\n       ^\r\n      Can't find stylesheet to import.\n  ╷\n6 │ @import 'variables';\n  │         ^^^^^^^^^^^\n  ╵\n  stdin 6:9  root stylesheet\r\n      in C:\\xampp\\htdocs\\Painel-master\\resources\\sass\\app.scss (line 6, column 9)\n    at runLoaders (C:\\xampp\\htdocs\\Painel-master\\node_modules\\webpack\\lib\\NormalModule.js:301:20)\n    at C:\\xampp\\htdocs\\Painel-master\\node_modules\\loader-runner\\lib\\LoaderRunner.js:367:11\n    at C:\\xampp\\htdocs\\Painel-master\\node_modules\\loader-runner\\lib\\LoaderRunner.js:233:18\n    at context.callback (C:\\xampp\\htdocs\\Painel-master\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at render (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass-loader\\lib\\loader.js:52:13)\n    at Function.$2 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:24106:48)\n    at w6.$2 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:15161:15)\n    at u6.v7 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:9031:42)\n    at u6.v6 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:9033:32)\n    at ik.uh (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8373:46)\n    at tF.$0 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8515:7)\n    at Object.ex (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:1532:80)\n    at aj.bb (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8436:3)\n    at iz.bb (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8366:25)\n    at iz.cA (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8353:6)\n    at p8.cA (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8143:35)\n    at Object.n (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:1405:19)\n    at C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:5110:51\n    at ww.a (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:1416:71)\n    at ww.$2 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8158:23)\n    at v9.$2 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8153:25)\n    at u6.v7 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:9031:42)\n    at u6.v6 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:9033:32)\n    at ik.uh (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8373:46)\n    at tF.$0 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8515:7)\n    at Object.ex (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:1532:80)\n    at aj.bb (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8436:3)\n    at iz.bb (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8366:25)\n    at iz.cA (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8353:6)\n    at Object.eval (eval at BU (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:656:15), <anonymous>:3:37)\n    at u6.v7 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:9031:42)\n    at u6.v6 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:9033:32)\n    at ik.uh (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8373:46)\n    at tF.$0 (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8515:7)\n    at Object.ex (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:1532:80)\n    at aj.bb (C:\\xampp\\htdocs\\Painel-master\\node_modules\\sass\\sass.dart.js:8436:3)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 

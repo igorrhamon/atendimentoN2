@@ -28,7 +28,8 @@ class Tecnico extends Model
         return $this->hasMany('App\Atendimento','tecnico_id');
     }
     public function atendimentosLast(){
-        return $this->hasMany('App\Atendimento','tecnico_id');
+//        return $this->hasMany('atendimentos');
+        return $this->hasMany('App\Atendimento','tecnico_id')->where('fimAtendimento','=','NULL');
     }
     public function atendimentosHoje(){
         return $this->hasMany('App\Atendimento','tecnico_id')->where('dataDoAtendimento','=',date("Y-m-d",strtotime(now())));

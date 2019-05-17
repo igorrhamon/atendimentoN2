@@ -60,7 +60,7 @@ Route::post('/editNew/','NewController@editNew')->name('editNew');
 Route::get('/deleteNew/','NewController@deleteNewForm')->name('deleteNew');
 Route::post('/deleteNew/','NewController@deleteNew')->name('deleteNew');
 
-Route::get('/homeNews','HomeController@index')->name('showAllNews');
+Route::get('/homeNews','HomeController@index2')->name('showAllNews');
 Route::get('/homeNewsNaoLido','HomeController@indexNaoLido')->name('indexNaoLido');
 Route::get('/news/whoRead/{id}','NewController@noRead')->name('whoRead');
 

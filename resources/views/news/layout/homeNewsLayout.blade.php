@@ -39,7 +39,7 @@
 
 <body class="">
 @include('layouts.navLaytout')
-<div class="d-flex align-items-center bg-info  h-25" style="	background-image: url(http://www.senado.leg.br/noticias/TV/scripts/GetImagemMidia.asp?COD_MIDIA=444267);	background-position: center;	background-size: 70%;	background-repeat: no-repeat;">
+<div class="d-flex align-items-center bg-info  h-25" style="">
     <div class="container">
         <div class="row">
             <div class="mx-auto text-center col-md-6">

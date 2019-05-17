@@ -39,12 +39,25 @@
                                     <h2 class="">Técnicos Em Atendimento</h2>
                                 </div>
                             </div>
-                            <div class="row py-2">
-                                @yield('navPainel')
+                            <div class="row">
+                                <div class="col-3 py-2">
+                                    @yield('navPainel')
+                                </div>
+                                <div class="col-9 py-2">
+                                    <!-- Tab panes -->
+                                    @yield('tabContent')
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 py-2">
+                                    <h2 class="" >Gráficos de Atendimento</h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 py-2">
+                                    <div id="chart"></div>
+                                </div>
 
-
-                                <!-- Tab panes -->
-                                @yield('tabContent')
                             </div>
                         </div>
                     </div>
@@ -63,9 +76,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 p-2" ><div id="chart"></div></div>
         </div>
     </div>
 </div>
