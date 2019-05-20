@@ -27,8 +27,9 @@ class HomeController extends Controller
     public function index(){
         //Notícias para página inicial
         $news = News::paginate(6);
-        $news->map(function ($item){
-           return substr($item['content'],0,100);
+        $news->transform(function ($item,$key){
+           $item['content'] = substr($item['content'],0,5);
+           return $item->all();
         });
 
         $user = Auth::user();
