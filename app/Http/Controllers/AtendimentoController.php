@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use function foo\func;
 use Notification;
 use App\Atendimento;
 use App\Location;
@@ -22,19 +23,21 @@ class AtendimentoController extends Controller
         return view('tecnicos.iniciarAtendimento',compact('locations','tecnico'));
     }
     public function iniciarAtendimento(Request $request){
-        $tecnico = Tecnico::findOrFail($request->id);
+        $tecnico = Auth::user()->tecnico;
         $tecnico->status = 1;
         $dataDoAtendimento = date('Y-m-d', strtotime(now()));
         $inicioAtendimento = date('H:i:s', strtotime(now()));
         $atendimento = new Atendimento();
 //        $tecnico = $this->atualizaTempoAtendimento($tecnico);
-        $tecnico->location_id = $request->location_id;
+        $tecnico->location_id = intval($request->location_id) ;
 //        return $tecnico;
-        $tecnico->save();
+        $tecnico->update();
+//        return $tecnico;
+
         $atendimento->inicioAtendimento = $inicioAtendimento;
         $atendimento->dataDoAtendimento = $dataDoAtendimento;
         $atendimento->tecnico_id = $tecnico->id;
-        $atendimento->numeroChamado =$request->numeroChamado;
+        $atendimento->numeroChamado = $request->numeroChamado;
         $atendimento->save();
         return redirect('homeNews');
     }
@@ -117,25 +120,33 @@ class AtendimentoController extends Controller
          * Quando há um atendimento encerrado no dia anterior e fimAtendimento está vazio,
          * fimAtendimento = inicioAtendimento
          */
-        $atendimentosHojeFimAtendimentoVazio =  Atendimento::all()->where('fimAtendimento','==',NULL)->where('dataDoATendimento','!=',$dataAtual)->where('tecnico_id','==',Auth::user()->tecnico->id);
+        $atendimentosHojeFimAtendimentoVazio =  Atendimento::all()->where('fimAtendimento','==',NULL)->where('dataDoAtendimento','!=',$dataAtual)->where('tecnico_id','==',Auth::user()->tecnico->id);
+
+//        echo $atendimentosHojeFimAtendimentoVazio->toJson();
+
         if($atendimentosHojeFimAtendimentoVazio->isNotEmpty()){
 
             $atendimentosHojeFimAtendimentoVazio->map(function ($item,$key){
-
+                $item['tempoDeAtendimento']="00:00:00";
                 $item['fimAtendimento'] = $item['inicioAtendimento'];
                 $item->save();
             });
-
             $tecnico->status= 0;
             $tecnico->tempoDeAtendimento = "00:00:00";
             $tecnico->save();
         }
 
+        return $tecnico;
+
+        $tecnico = $this->atualizaTempoAtendimento($tecnico);
+        $tecnico->save();
+
+
     }
 
     public function totalAtendimentoHoje(){
         $tempoTotal = "00:00:00";
-        $atendimentos = Atendimento::all()->where('dataDoAtendimento','=',date("Y-m-d",strtotime(now())));
+        $atendimentos = Atendimento::all()->where('dataDoAtendimento','=',date("Y-m-d",strtotime(now())))->where('fimAtendimento','!=',NULL);
         $tempoTotal= $this->AddPlayTime($atendimentos);
         return $tempoTotal;
     }
@@ -151,9 +162,10 @@ class AtendimentoController extends Controller
     public function tempoEmPorcentagem($tempoDeAtendimento,$tempoTotal){
         $tempoEmSegundo = $this->tempoEmSegundos($tempoDeAtendimento);
         $tempoTotalEmSegundo = $this->tempoEmSegundos($tempoTotal);
-        $tempoPorcentagem = $tempoEmSegundo / $tempoTotalEmSegundo *100;
-        return $tempoPorcentagem;
-    }
+            if($tempoTotalEmSegundo!=0)
+                return $tempoEmSegundo / $tempoTotalEmSegundo *100;
+           else return 0;
+   }
 
     public function tempoPorTecnicoPorcentagem(){
         $tempoTotalSeg = $this->totalAtendimentoHoje();
@@ -162,17 +174,27 @@ class AtendimentoController extends Controller
          * Retorna os técnicos que tem atendimento hoje.
          */
 //        return $tecnicos;
-        $atendimentos = Atendimento::all()->where('dataDoAtendimento','==',$dataAtual);
-
-
+        $atendimentos = Atendimento::all()->where('dataDoAtendimento','==',$dataAtual)->where('fimAtendimento','!=',NULL);
+        /*
+         * Técnicos que tem atendimentos hoje
+         */
+         $tecnicos = Tecnico::whereHas('atendimentos', function ($query){
+            $query->where('dataDoAtendimento','=',date('Y-m-d',strtotime(now())))->where('fimAtendimento','!=',NULL);
+        })->get();
+//        return $tecnicos;
+        $tecnicos->transform(function ($tecnico){
+            $tecnico->tempoDeAtendimento = $this->tempoEmPorcentagem($tecnico->tempoDeAtendimento,$this->totalAtendimentoHoje());
+            return $tecnico;
+        });
         $atendimentos->transform(function ($atendimento){
-
+            /*
+             * Se o
+             */
             if($atendimento->fimAtendimento != NULL || $atendimento->tecnico->tempoDeAtendimento != "00:00:00")
                 $atendimento->tecnico->tempoDeAtendimento = $this->tempoEmPorcentagem($atendimento->tecnico->tempoDeAtendimento,$this->totalAtendimentoHoje());
             return $atendimento;
         });
 
-        return $atendimentos;
 
 
 //        $tecnicos->transform(function ($item){
@@ -187,7 +209,7 @@ class AtendimentoController extends Controller
 //            return $tecnico;
 //        });
 //
-//        return $tecnicos;
+        return $tecnicos;
     }
     public function tempoPorTecnicoPorcentagemVersao(){
         $tecnicos = Tecnico::whereHas('atendimentos', function ($query){
@@ -208,9 +230,5 @@ class AtendimentoController extends Controller
             $tecnico = $this->atualizaTempoAtendimento($tecnico);
         }
         return $tecnicos;
-    }
-
-    public function AtendimentoIndex(Tecnico $tecnico){
-
     }
 }

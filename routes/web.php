@@ -29,8 +29,6 @@ Route::post('/newTecnico','TecnicoController@storeNewTecnico')->name('newTecnico
 Route::get('/editTecnico/{id}','TecnicoController@editTecnicoForm')->name('editTecnico');
 Route::post('/editTecnico/','TecnicoController@editTecnico')->name('editTecnico');
 
-Route::get('/changeLocation/{id}','TecnicoController@changeLocationForm')->name('changeLocation');
-Route::post('/changeLocation','TecnicoController@changeLocation')->name('changeLocation');
 
 Route::get('/changeStatus','TecnicoController@changeStatusForm')->name('changeStatus');
 Route::post('/changeStatus','TecnicoController@changeStatus')->name('changeStatus');
@@ -60,8 +58,8 @@ Route::post('/editNew/','NewController@editNew')->name('editNew');
 Route::get('/deleteNew/','NewController@deleteNewForm')->name('deleteNew');
 Route::post('/deleteNew/','NewController@deleteNew')->name('deleteNew');
 
-Route::get('/homeNews','HomeController@index2')->name('showAllNews');
-Route::get('/homeNewsNaoLido','HomeController@indexNaoLido')->name('indexNaoLido');
+Route::get('/homeNews','HomeController@index')->name('showAllNews');
+Route::get('/homeNewsNaoLido','HomeController@index')->name('indexNaoLido');
 Route::get('/news/whoRead/{id}','NewController@noRead')->name('whoRead');
 
 

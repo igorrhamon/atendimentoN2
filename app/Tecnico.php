@@ -34,6 +34,11 @@ class Tecnico extends Model
     public function atendimentosHoje(){
         return $this->hasMany('App\Atendimento','tecnico_id')->where('dataDoAtendimento','=',date("Y-m-d",strtotime(now())));
     }
+    public function ultimoAtendimentoAberto(){
+        return $this->hasMany('App\Atendimento','tecnico_id')
+            ->firstWhere('dataDoAtendimento','==',date("Y-m-d",strtotime(now())))
+            ->firstWhere('fimAtendimento','==',NULL);
+    }
 
 
 }

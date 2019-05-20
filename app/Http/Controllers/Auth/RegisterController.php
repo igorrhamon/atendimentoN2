@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Tecnico;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/homeNews';
 
     /**
      * Create a new controller instance.
@@ -63,10 +64,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+         $tecnico = Tecnico::create([
+            'status'=> 0,
+            'user_id'=> $user->id,
+            'location_id'=> 1,
+            'tempoDeAtendimento' =>"00:00:00"
+        ]);
+
+         return $tecnico->user;
     }
 }

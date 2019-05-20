@@ -24,12 +24,55 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    public function index(){
+        //Notícias para página inicial
+        $news = News::paginate(6);
+        $news->map(function ($item){
+           return substr($item['content'],0,100);
+        });
+
+        $user = Auth::user();
+
+        //Contagem de notícias não lidas
+        $noRead = new NewController();
+        $naoLidas = $noRead->noRead($user->id);
+        /*
+         * Verifica o ultimo atendimento do usuário
+         * Caso não haja atendimento hoje, o tempo de Atendimento é zerado.
+         */
+        $atendimentoController = new AtendimentoController();
+        $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
+
+        if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentosHoje->first();
+
+        /*
+         * Json para gerar os gráficos
+         */
+        $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
+
+        /*
+         * @todo: O relacionamento entre location_id e tecnico não está funcionando corretamente
+         */
+        $location = Location::findOrFail($user->tecnico->location_id);
+        $tempoAtendimentoHoje = $user->tecnico->tempoDeAtendimento;
+
+        /*
+         * Select de artigos não lidos
+         */
+        $noRead = new NewController();
+        $naoLidas = $noRead->noRead($user->id);
+
+
+        return view('news.home',compact('news', 'naoLidas','AnyChartJson','tempoAtendimentoHoje','location','atendimento'));
+
+    }
+
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function indexAntigo()
     {
         $news = News::paginate(6);
         $id = Auth::id();
@@ -47,34 +90,6 @@ class HomeController extends Controller
         $location = Location::findOrFail($user->tecnico->location_id);
 
         return view('news.home',compact('news','id','naoLidas', 'user','location', 'atendimento','tempoAtendimentoHoje','AnyChartJson'));
-    }
-
-    public function index2(){
-        //Notícias para página inicial
-        $news = News::paginate(6);
-
-        $user = Auth::user();
-
-        //Contagem de notícias não lidas
-        $noRead = new NewController();
-        $naoLidas = $noRead->noRead($user->id);
-
-        /*
-         * Verifica o ultimo atendimento do usuário
-         * Caso não haja atendimento hoje, o tempo de Atendimento é zerado.
-         */
-        $atendimentoController = new AtendimentoController();
-        $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
-
-        /*
-         * Json para gerar os gráficos
-         */
-        $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
-        return $AnyChartJson;
-
-
-
-
     }
 
     public function indexNaoLido(){

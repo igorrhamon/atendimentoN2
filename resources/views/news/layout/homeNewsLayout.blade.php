@@ -27,7 +27,7 @@
 
                 ]);
                 // set chart title
-                chart.title("Top 5 pancake fillings");
+                chart.title("Atendimentos");
                 // set the container element
                 chart.container("chart");
                 // initiate chart display

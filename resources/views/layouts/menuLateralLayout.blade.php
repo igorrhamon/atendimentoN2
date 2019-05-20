@@ -18,13 +18,15 @@
         </div>
     </div>
 </div>
-<div class="row">
+@isset($AnyChartJson)
+    <div class="row">
     <div class="col-md-12">
         <h2 class="text-center">Links Importantes</h2>
         <hr class="w-25">
         <div class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">Base&nbsp;</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Atendimentos Hoje</li>
             <li class="list-group-item d-flex justify-content-between align-items-start"><br></li>
         </div>
     </div>
 </div>
+@endisset
