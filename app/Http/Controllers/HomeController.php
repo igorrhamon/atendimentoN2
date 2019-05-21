@@ -7,6 +7,9 @@ use App\News;
 //use App\Supervisor;
 use App\Tecnico;
 use App\User;
+use Carbon\Carbon;
+use DateTime;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Location;
 use Illuminate\Support\Facades\Auth;
@@ -26,11 +29,17 @@ class HomeController extends Controller
 
     public function index(){
         //Notícias para página inicial
+
+
         $news = News::paginate(6);
+
+        //Transforma o created_at
+        Carbon::setLocale('pt-br');
         $news->transform(function ($item,$key){
-           $item['content'] = substr($item['content'],0,5);
-           return $item->all();
+           $item['created_at'] = Carbon::createFromFormat('Y-m-d H:m:s', $item['created_at']);
+           return $item;
         });
+//        return $news;
 
         $user = Auth::user();
 
@@ -44,7 +53,8 @@ class HomeController extends Controller
         $atendimentoController = new AtendimentoController();
         $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
 
-        if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentosHoje->first();
+        if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentosHoje->last();
+//        return $atendimento;
 
         /*
          * Json para gerar os gráficos
@@ -106,21 +116,44 @@ class HomeController extends Controller
 
     public function supervisorAdmin(){
 
-//        $locations = Location::has('tecnicos',function ($query){
-//            return $query->where('status','=','1');
-//        })->get();
 
         $locations = Location::whereHas('tecnicos', function ($query){
             $query->where('status','=','1');
         })->get();
-
         $tecnicos = Tecnico::all();
         $atendimentos = new AtendimentoController();
         $atendimentosEmAberto = Atendimento::all()->where('fimAtendimento','=','NULL');
         $tempoTotal = $atendimentos->totalAtendimentoHoje();
         $AnyChartJson = $atendimentos->tempoPorTecnicoPorcentagem();
-        return $AnyChartJson;
-//        $charJson =
         return view('supervisor.supervisorAdmin',compact('locations','atendimentos','atendimentosEmAberto','tecnicos','tempoTotal','AnyChartJson'));
+    }
+
+    function time_elapsed_string($datetime, $full = false) {
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 }

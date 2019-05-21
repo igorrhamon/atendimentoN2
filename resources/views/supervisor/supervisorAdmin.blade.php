@@ -10,13 +10,13 @@
 @section('tabContent')
     <div class="tab-content">
         @foreach($locations as $location)
-            <div class="tab-pane" id="location{{$location->id}}" role="tabpanel">
+            <div class="tab-pane fade @if($loop->first) show active @endif" id="location{{$location->id}}" role="tabpanel">
                 @foreach($location->tecnicos as $tecnico)
                     {{$tecnico->user->name}}<BR>
-                    @foreach($tecnico->atendimentos as $atendimentoTecnico)
-                        @if($loop->last) {{$atendimentoTecnico->numeroChamado}} @endif
-                    @endforeach<BR>
-{{--                    {{$tecnico->atendimentosLast}}<BR>--}}
+{{--                    @foreach($tecnico->ultimosHoje as $atendimentoTecnico)--}}
+{{--                        @if($loop->last) {{$atendimentoTecnico}} @endif--}}
+{{--                    @endforeach<BR>--}}
+                    {{ $tecnico->ultimoAtendimentoAberto->pluck('numeroChamado')}}<BR>
                 @endforeach
             </div>
         @endforeach

@@ -30,9 +30,7 @@ class AtendimentoController extends Controller
         $atendimento = new Atendimento();
 //        $tecnico = $this->atualizaTempoAtendimento($tecnico);
         $tecnico->location_id = intval($request->location_id) ;
-//        return $tecnico;
         $tecnico->update();
-//        return $tecnico;
 
         $atendimento->inicioAtendimento = $inicioAtendimento;
         $atendimento->dataDoAtendimento = $dataDoAtendimento;
@@ -46,6 +44,7 @@ class AtendimentoController extends Controller
         $tecnico = Auth::user()->tecnico;
         $tecnico->status = 0;
         $atendimento = Atendimento::findOrFail($idAtendimento);
+//        return $atendimento;
         $atendimento->fimAtendimento = date('H:i:s', strtotime(now()));
         $atendimento->tempoDeAtendimento = $this->calculaTempoAtendimento($atendimento->inicioAtendimento,$atendimento->fimAtendimento);
         $atendimento->dataDoAtendimento = date("Y-m-d",strtotime(now()));

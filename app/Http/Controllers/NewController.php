@@ -70,4 +70,6 @@ class NewController extends Controller
 //        $tecnicos = News::findOrFail($id);
 //        return $tecnicos->whoRead();
 //    }
+
+
 }
