@@ -1,20 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- PAGE settings -->
-    <link rel="icon" href="https://templates.pingendo.com/assets/Pingendo_favicon.ico">
-    <title></title>
-    <meta name="description" content="Wireframe design of a landing page by Pingendo">
-    <meta name="keywords" content="Pingendo bootstrap example template wireframe landing">
-    <meta name="author" content="Pingendo">
-    <!-- CSS dependencies -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="s/custom-variables-bootstrap-2019-04-10.css">
-</head>
+@include('layouts.head')
 
 <body class="">
 @include('layouts.navLaytout')
@@ -22,18 +9,28 @@
     <div class="container">
         <div class="row">
             <div class="mx-auto text-center col-md-6">
-                <h1 class="display-1 text-white">Title</h1>
+                <h1 class="display-1 text-white">Supervisor</h1>
             </div>
         </div>
     </div>
 </div>
-<div class="py-5 text-center">
+<div class="py-5" >
     <div class="container">
-        <div class="row" >
-            <div class="mx-auto col-lg-6 col-10">
-                <h1>Iniciar Atendimento</h1>
-                <hr class="py-2">
-                @yield('formIniciarAtendimento')
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row" >
+                    <div class="col-md-8">
+                        @yield('formCriarArtigo')
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12" style="">
+                            <div class="col-md-12">
+                                @include('layouts.menuLateralArtigo')
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

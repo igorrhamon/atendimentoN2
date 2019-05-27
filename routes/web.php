@@ -49,14 +49,15 @@ Route::get('/encerrarAtendimento/{idAtendimento}','AtendimentoController@encerra
  * New
  */
 Route::get('/new/{id}','NewController@openNewTecnico')->name('openNewTecnico');
+Route::get('/manageNews','NewController@manageNews')->name('manageNews');
 Route::get('/createNew/','NewController@createNewForm')->name('createNew');
 Route::post('/createNew/','NewController@createNew')->name('createNew');
 
 Route::get('/editNew/{id}','NewController@editNewForm')->name('editNew');
 Route::post('/editNew/','NewController@editNew')->name('editNew');
 
-Route::get('/deleteNew/','NewController@deleteNewForm')->name('deleteNew');
-Route::post('/deleteNew/','NewController@deleteNew')->name('deleteNew');
+Route::delete('/deleteNew/{id}','NewController@deleteNew')->name('deleteNew');
+//Route::post('/deleteNew/','NewController@deleteNew')->name('deleteNew');
 
 Route::get('/homeNews','HomeController@index')->name('showAllNews');
 Route::get('/homeNewsNaoLido','HomeController@index')->name('indexNaoLido');

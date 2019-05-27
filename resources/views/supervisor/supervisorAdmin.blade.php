@@ -13,10 +13,9 @@
             <div class="tab-pane fade @if($loop->first) show active @endif" id="location{{$location->id}}" role="tabpanel">
                 @foreach($location->tecnicos as $tecnico)
                     {{$tecnico->user->name}}<BR>
-{{--                    @foreach($tecnico->ultimosHoje as $atendimentoTecnico)--}}
-{{--                        @if($loop->last) {{$atendimentoTecnico}} @endif--}}
-{{--                    @endforeach<BR>--}}
-                    {{ $tecnico->ultimoAtendimentoAberto->pluck('numeroChamado')}}<BR>
+                    @isset($tecnico->ultimoAtendimentoAberto->first()->numeroChamado)
+                        {!! $tecnico->ultimoAtendimentoAberto->first()->numeroChamado !!}<BR>
+                    @endisset
                 @endforeach
             </div>
         @endforeach

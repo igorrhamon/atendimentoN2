@@ -11,7 +11,9 @@
             <div class="col-md-12">
                 <ul class="list-inline">
                     <li class="list-inline-item">{{$new->supervisor->user->name}}<br></li>
-                    <li class="list-inline-item ">{{$new->created_at->diffForHumans()}}</li>
+{{--                    @todo: Data da Criação está incorreta--}}
+                    <li class="list-inline-item ">{{$new->created_at}}</li>
+{{--                    <li class="list-inline-item ">{{$new->created_at->diffForHumans()}}</li>--}}
                 </ul>
             </div>
         </div>

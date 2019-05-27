@@ -29,9 +29,7 @@ class HomeController extends Controller
 
     public function index(){
         //Notícias para página inicial
-
-
-        $news = News::paginate(6);
+        $news = News::orderBy('id','DESC')->paginate(6);
 
         //Transforma o created_at
         Carbon::setLocale('pt-br');
@@ -46,6 +44,8 @@ class HomeController extends Controller
         //Contagem de notícias não lidas
         $noRead = new NewController();
         $naoLidas = $noRead->noRead($user->id);
+
+
         /*
          * Verifica o ultimo atendimento do usuário
          * Caso não haja atendimento hoje, o tempo de Atendimento é zerado.
@@ -54,7 +54,6 @@ class HomeController extends Controller
         $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
 
         if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentosHoje->last();
-//        return $atendimento;
 
         /*
          * Json para gerar os gráficos
@@ -83,25 +82,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function indexAntigo()
-    {
-        $news = News::paginate(6);
-        $id = Auth::id();
-        $noRead = new NewController();
-        $naoLidas = $noRead->noRead($id);
-        $user = User::findOrFail($id);
-        if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentos->last();
 
-
-        $atendimentoController = new AtendimentoController();
-        $tecnico = $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
-        $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
-        $tecnico->save();
-        $tempoAtendimentoHoje = $user ->tecnico->tempoDeAtendimento;
-        $location = Location::findOrFail($user->tecnico->location_id);
-
-        return view('news.home',compact('news','id','naoLidas', 'user','location', 'atendimento','tempoAtendimentoHoje','AnyChartJson'));
-    }
 
     public function indexNaoLido(){
         $id = Auth::id();

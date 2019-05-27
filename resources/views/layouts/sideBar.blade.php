@@ -26,13 +26,12 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-center">Links Importantes</h2>
+        <h2 class="text-center">Gráfico</h2>
         <hr class="w-25">
         <div class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center active py-1">Base&nbsp;</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center active py-1"></li>
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div id="chart"></div>
-
             </li>
         </div>
     </div>

@@ -18,12 +18,12 @@ class NewController extends Controller
     }
 
     public function createNewForm(){
-        return view('stubs.formulario.createNew');
+        return view('news.criarNew');
     }
 
     public function createNew(Request $request){
         $new = News::create($request->all());
-        return $new;
+        return redirect('new/'.$new->id);
     }
 
     public function editNewForm($id){
@@ -39,15 +39,15 @@ class NewController extends Controller
         $news = News::all();
         return view('stubs.formulario.deleteNewForm',compact('news'));
     }
-    public function deleteNew(Request $request){
-        $new = News::findOrFail($request->id);
+    public function deleteNew($id){
+        $new = News::findOrFail($id);
 //        return $new;
         $new->delete();
-        echo "Deletado";
+        return redirect(route('manageNews'));
     }
 
     public function showAllNews(){
-        $news = News::all();
+        $news = News::all()->sortByDesc;
 
         return view('news.home',compact('news'));
     }
@@ -64,6 +64,12 @@ class NewController extends Controller
             $query->where('tecnico_id',Auth::id());
         })->paginate(6);
         return $news;
+    }
+
+    public function manageNews(){
+        $news = News::paginate(10);
+        return view('news.gerenciarNews',compact('news'));
+
     }
 
 //    public function whoRead($id){

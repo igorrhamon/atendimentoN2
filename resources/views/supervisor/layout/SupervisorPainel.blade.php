@@ -12,7 +12,7 @@
     <meta name="author" content="Pingendo">
     <!-- CSS dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="http://n2/css/app.css">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     @include('layouts.chart')
 </head>
 
@@ -40,6 +40,11 @@
                                 </div>
                             </div>
                             <div class="row">
+                                @if($locations->count() ==0 )
+                                    <div class="col-12">
+                                        <span >Não há técnicos em atendimento no momento</span>
+                                    </div>
+                                @else
                                 <div class="col-3 py-2">
                                     @yield('navPainel')
                                 </div>
@@ -47,6 +52,7 @@
                                     <!-- Tab panes -->
                                     @yield('tabContent')
                                 </div>
+                                @endif
                             </div>
                             <div class="row">
                                 <div class="col-md-12 py-2">
@@ -64,13 +70,7 @@
                     <div class="col-md-4">
                         <div class="col-md-12" style="">
                             <div class="col-md-12">
-                                <h2 class="py-1 text-center">Artigos</h2>
-                                <hr class="w-25">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action active py-1"></a>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">Criar Artigo</li><a href="#" class="list-group-item list-group-item-action">Gerenciar Artigos</a>
-                                    <a href="#" class="list-group-item list-group-item-action">Apagar Artigos</a>
-                                </div>
+                                @include('layouts.menuLateralArtigo')
                             </div>
                         </div>
                     </div>

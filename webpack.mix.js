@@ -12,5 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+    .js('resources/js/summernote/summernote-bs4.js','public/js')
+   .sass('resources/sass/app.scss', 'public/css')
+    .styles('resources/js/summernote/summernote-bs4.css','public/css/summernote.css');
 // mix.combine('resources/css/wireframe.css', 'public/css/app.css');
