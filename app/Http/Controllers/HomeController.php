@@ -59,6 +59,7 @@ class HomeController extends Controller
          * Json para gerar os gráficos
          */
         $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
+//        return $AnyChartJson;
 
         /*
          * @todo: O relacionamento entre location_id e tecnico não está funcionando corretamente

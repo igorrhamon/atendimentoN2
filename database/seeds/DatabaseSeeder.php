@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
 //        $this->call(SupervisorTableSeeder::class);
 //        $this->call(LocationTableSeeder::class);
 //        $this->call(TecnicoTableSeeder::class);
-        $this->call(NewTableSeeder::class);
+//        $this->call(NewTableSeeder::class);
+        $this->call(HardDriveTableSeeder::class);
         Model::reguard();
     }
 }

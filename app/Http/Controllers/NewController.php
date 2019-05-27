@@ -67,7 +67,7 @@ class NewController extends Controller
     }
 
     public function manageNews(){
-        $news = News::paginate(10);
+        $news = News::orderBy('id','DESC')->paginate(10);
         return view('news.gerenciarNews',compact('news'));
 
     }

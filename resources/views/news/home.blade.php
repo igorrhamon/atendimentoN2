@@ -13,13 +13,12 @@
                     <li class="list-inline-item">{{$new->supervisor->user->name}}<br></li>
 {{--                    @todo: Data da Criação está incorreta--}}
                     <li class="list-inline-item ">{{$new->created_at}}</li>
-{{--                    <li class="list-inline-item ">{{$new->created_at->diffForHumans()}}</li>--}}
                 </ul>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <p class="">{{substr($new->content,0,-21)}}</p>
+                <p class="">{{substr($new->content,0,-21)}}&nbsp;<a href="{{route('openNewTecnico',$new->id)}}" class="stretched-link text-dark">...</a></p>
             </div>
         </div>
         <hr class="w-75" >
