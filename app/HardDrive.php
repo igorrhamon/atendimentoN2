@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class HardDrive extends Model
 {
     protected $fillable = [
-        'endLog', 'modelo', 'user_id',
+        'endLog', 'modelo', 'user_id', 'avaliable'
     ];
 
     public function user(){

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\HardDrive;
 use function foo\func;
 use Notification;
 use App\Atendimento;
@@ -20,7 +21,8 @@ class AtendimentoController extends Controller
         $user = User::findOrFail($id);
         $locations = Location::all()->where('name','!=','Central');
         $tecnico = $user->tecnico;
-        return view('tecnicos.iniciarAtendimento',compact('locations','tecnico'));
+        $hardDrives = HardDrive::all()->where('avaliable', '=',TRUE);
+        return view('tecnicos.iniciarAtendimento',compact('locations','tecnico','hardDrives'));
     }
     public function iniciarAtendimento(Request $request){
         $tecnico = Auth::user()->tecnico;
@@ -32,10 +34,17 @@ class AtendimentoController extends Controller
         $tecnico->location_id = intval($request->location_id) ;
         $tecnico->update();
 
+        $hardDrive = HardDrive::findOrFail($request->hardDrive_id);
+        $hardDrive->avaliable = FALSE;
+        $hardDrive->user_id = $tecnico->user->id;
+        $hardDrive->save();
+
         $atendimento->inicioAtendimento = $inicioAtendimento;
         $atendimento->dataDoAtendimento = $dataDoAtendimento;
         $atendimento->tecnico_id = $tecnico->id;
         $atendimento->numeroChamado = $request->numeroChamado;
+        $atendimento->hardDrive_id = $request->hardDrive_id;
+//        return $atendimento;
         $atendimento->save();
         return redirect('homeNews');
     }
@@ -44,7 +53,11 @@ class AtendimentoController extends Controller
         $tecnico = Auth::user()->tecnico;
         $tecnico->status = 0;
         $atendimento = Atendimento::findOrFail($idAtendimento);
-//        return $atendimento;
+        $hardDrive = HardDrive::findOrFail($atendimento->hardDrive_id);
+        $hardDrive->avaliable = TRUE;
+//        @todo: Quando o supervisor atestar a entraga do HD, ele será o responsável.
+//        $hardDrive->user_id = $tecnico->user->id;
+        $hardDrive->save();
         $atendimento->fimAtendimento = date('H:i:s', strtotime(now()));
         $atendimento->tempoDeAtendimento = $this->calculaTempoAtendimento($atendimento->inicioAtendimento,$atendimento->fimAtendimento);
         $atendimento->dataDoAtendimento = date("Y-m-d",strtotime(now()));
@@ -52,7 +65,6 @@ class AtendimentoController extends Controller
         $tecnico->location_id = 1;
 
         $supervisores = Supervisor::findOrFail(1);
-//        return $supervisores;
         $atendimento->save();
         $tecnico->save();
         $supervisores->notify(new TecnicoAvaliable($atendimento));

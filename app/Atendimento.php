@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Atendimento extends Model
 {
     protected $fillable = [
-        'tecnico_id', 'inicioAtendimento', 'fimAtendimento','tempoDeAtendimento' ,'dataDoAtendimento','numeroChamado'
+        'tecnico_id', 'inicioAtendimento', 'fimAtendimento','tempoDeAtendimento' ,'dataDoAtendimento','numeroChamado','hardDrive_id'
     ];
 
     public function tecnico(){

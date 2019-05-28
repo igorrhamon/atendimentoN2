@@ -14,8 +14,8 @@ class CreateColumnHardDriveId extends Migration
     public function up()
     {
         Schema::table('atendimentos', function (Blueprint $table) {
-            $table->unsignedInteger('hardDriver_id')->nullable();
-            $table->foreign('hardDriver_id')->references('id')->on('hard_drives')->onDelete('cascade');
+            $table->unsignedInteger('hardDrive_id')->nullable();
+            $table->foreign('hardDrive_id')->references('id')->on('hard_drives')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateColumnHardDriveId extends Migration
      */
     public function down()
     {
-//        Schema::dropColumn('hardDriver_id');
+        Schema::dropColumn('hardDrive_id');
     }
 }

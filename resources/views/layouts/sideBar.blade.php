@@ -31,7 +31,7 @@
 </div>
 <div class="row my-2 p-1">
     <div class="col-md-12" >
-    @if(($AnyChartJson->first()->tempoDeAtendimento ==  0))
+    @if(($AnyChartJson->isNotEmpty()))
             <h2 class="text-center">Gráfico</h2>
             <hr class="w-25">
             <div class="list-group">
