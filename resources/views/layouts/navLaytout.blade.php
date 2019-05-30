@@ -12,6 +12,9 @@
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="{{route('supervisorAdmin')}}">Técnicos</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="{{route('listarHD')}}">HD's</a>
+                </li>
                 @endif
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="{{route('logout')}}">Sair</a>

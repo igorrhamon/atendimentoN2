@@ -11,6 +11,6 @@ class HardDrive extends Model
     ];
 
     public function user(){
-        $this->hasOne('App\User');
+        return $this->hasOne('App\User','id','user_id');
     }
 }

@@ -8,6 +8,7 @@
             <a href="#" class="list-group-item list-group-item-action">Iniciar Atendimento</a> </div>
     </div>
 </div>
+@isset($naoLidas)
 <div class="row my-2 p-1">
     <div class="col-md-12">
         <h2 class="text-center">Artigos</h2>
@@ -18,6 +19,7 @@
         </div>
     </div>
 </div>
+@endisset
 @isset($AnyChartJson)
     <div class="row">
     <div class="col-md-12">

@@ -8,8 +8,8 @@
             <tr>
                 <th style="width: 5%">#</th>
                 <th>Title</th>
-                <th style="width: 10%">Editar</th>
-                <th style="width: 10%">Editar</th>
+                <th style="width: 10%"></th>
+                <th style="width: 10%"></th>
             </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                             @method('DELETE')
                             @csrf
                             <input type="hidden" name="id" value="{{$new->id}}">
-                            <button type="submit" class="btn btn-outline-danger btn-sm">Apagar</button></td>
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Apagar</button>
                     </form>
                     </td>
 

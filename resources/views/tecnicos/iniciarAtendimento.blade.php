@@ -14,7 +14,6 @@
                 @endforeach
             </select>
         </div>
-{{--        @todo: Criar uma div que apareça quando clica  --}}
         <div class="form-group">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="0" id="hardDriveChoose" onchange="showDiv('hardDrive')">
@@ -25,8 +24,9 @@
         </div>
         <div class="form-group" id="hardDrive" >
             <div>
+{{--                @todo: Resolver o problema de iniciar o atendimento sem HD--}}
                 <select name="hardDrive_id" class="form-control">
-                    <option value="semHD" selected></option>
+                        <option value="1" selected></option>
                     @foreach($hardDrives as $hardDrive)
                         <option value="{{$hardDrive->endLog}}">HE{{$hardDrive->endLog}}</option>
                     @endforeach

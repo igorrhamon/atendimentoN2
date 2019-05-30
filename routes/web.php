@@ -42,7 +42,10 @@ Route::post('/iniciarAtendimento/','AtendimentoController@iniciarAtendimento')->
 Route::get('/encerrarAtendimento/{idAtendimento}','AtendimentoController@encerraAtendimento')->name('encerraAtendimento');
 
 
-
+/*
+ * HD
+ */
+Route::get('/hd','HardDriveController@listarHD')->name('listarHD');
 
 
 /*
