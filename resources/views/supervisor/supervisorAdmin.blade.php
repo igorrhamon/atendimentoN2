@@ -16,6 +16,9 @@
                     @isset($tecnico->ultimoAtendimentoAberto->first()->numeroChamado)
                         {!! $tecnico->ultimoAtendimentoAberto->first()->numeroChamado !!}<BR>
                     @endisset
+                    @isset($tecnico->ultimoAtendimentoAberto->first()->hardDrive)
+                        HD: HE{{$tecnico->ultimoAtendimentoAberto->first()->hardDrive->endLog}}
+                    @endisset
                 @endforeach
             </div>
         @endforeach

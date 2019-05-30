@@ -73,6 +73,7 @@ class HomeController extends Controller
         $noRead = new NewController();
         $naoLidas = $noRead->noRead($user->id);
 
+//        return $atendimento;
 
         return view('news.home',compact('news', 'naoLidas','AnyChartJson','tempoAtendimentoHoje','location','atendimento'));
 

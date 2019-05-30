@@ -46,6 +46,7 @@ Route::get('/encerrarAtendimento/{idAtendimento}','AtendimentoController@encerra
  * HD
  */
 Route::get('/hd','HardDriveController@listarHD')->name('listarHD');
+Route::get('/receberHd/{id}','HardDriveController@receberHD')->name('receberHD');
 
 
 /*

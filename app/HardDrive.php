@@ -13,4 +13,11 @@ class HardDrive extends Model
     public function user(){
         return $this->hasOne('App\User','id','user_id');
     }
+
+    public function atendimento(){
+        return $this->hasMany('App\Atendimento','hardDrive_id','id');
+    }
+    public function ultimoAtendimentoAberto(){
+        return $this->hasMany('App\Atendimento','hardDrive_id','id');
+    }
 }

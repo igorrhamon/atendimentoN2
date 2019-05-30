@@ -23,7 +23,7 @@
                 </td>
                 <td>
                     @if(!($HD->avaliable))
-                        <a class="btn btn-secondary btn-sm" href="{{url("editNew/{$HD->id}")}}" role="button">Receber</a>
+                        <a class="btn btn-secondary btn-sm" href="{{route('receberHD',$HD->id)}}" role="button">Receber</a>
                     @endif
                 </td>
 
