@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\HardDrive;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HardDriveController extends Controller
 {
@@ -14,15 +15,13 @@ class HardDriveController extends Controller
 
     public function receberHD($id){
         $HD = HardDrive::findOrFail($id);
-
+        $HD->user_id = Auth::id();
         $HD->avaliable = TRUE;
         $HD->save();
 
         $ultimoAtendimento =$HD->atendimento->last();
         $ultimoAtendimento->hardDriveRecebido = TRUE;
         $ultimoAtendimento->save();
-//        $HD->atendimento->hardDriveRecebido
-//        return $HD;
         return redirect(route('listarHD'));
     }
 }

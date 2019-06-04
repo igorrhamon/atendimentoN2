@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Atendimento;
 use App\News;
-//use App\Supervisor;
 use App\Tecnico;
 use App\User;
 use Carbon\Carbon;
 use DateTime;
-use function foo\func;
 use Illuminate\Http\Request;
 use App\Location;
 use Illuminate\Support\Facades\Auth;
-//use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -94,7 +91,28 @@ class HomeController extends Controller
         $user = User::findOrFail($id);
         $location = Location::findOrFail($user->tecnico->location_id);
         $news = $naoLidas;
-        return view('news.home',compact('news','id','naoLidas', 'user','location'));
+
+
+        /*
+         * Verifica o ultimo atendimento do usuário
+         * Caso não haja atendimento hoje, o tempo de Atendimento é zerado.
+         */
+        $atendimentoController = new AtendimentoController();
+        $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
+
+        if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentosHoje->last();
+
+        /*
+         * Json para gerar os gráficos
+         */
+        $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
+
+        $location = Location::findOrFail($user->tecnico->location_id);
+        $tempoAtendimentoHoje = $user->tecnico->tempoDeAtendimento;
+
+
+
+        return view('news.home',compact('news','id','naoLidas', 'user','location','AnyChartJson','tempoAtendimentoHoje','atendimento','location'));
     }
 
     public function supervisorAdmin(){
@@ -111,32 +129,10 @@ class HomeController extends Controller
         return view('supervisor.supervisorAdmin',compact('locations','atendimentos','atendimentosEmAberto','tecnicos','tempoTotal','AnyChartJson'));
     }
 
-    function time_elapsed_string($datetime, $full = false) {
-        $now = new DateTime;
-        $ago = new DateTime($datetime);
-        $diff = $now->diff($ago);
-
-        $diff->w = floor($diff->d / 7);
-        $diff->d -= $diff->w * 7;
-
-        $string = array(
-            'y' => 'year',
-            'm' => 'month',
-            'w' => 'week',
-            'd' => 'day',
-            'h' => 'hour',
-            'i' => 'minute',
-            's' => 'second',
-        );
-        foreach ($string as $k => &$v) {
-            if ($diff->$k) {
-                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-            } else {
-                unset($string[$k]);
-            }
-        }
-
-        if (!$full) $string = array_slice($string, 0, 1);
-        return $string ? implode(', ', $string) . ' ago' : 'just now';
+    public function exibirMapa(){
+        $locations = Location::whereHas('tecnicos', function ($query){
+            $query->where('status','=','1');
+        })->get();
+        return view('mapa.mapa',compact('locations'));
     }
 }

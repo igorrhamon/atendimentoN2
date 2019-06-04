@@ -9,12 +9,15 @@
                     <a class="nav-link mx-2" href="{{route('showAllNews')}}">Home</a>
                 </li>
                 @if(Auth::user()->isAdmin())
-                <li class="nav-item">
-                    <a class="nav-link mx-2" href="{{route('supervisorAdmin')}}">Técnicos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-2" href="{{route('listarHD')}}">HD's</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{{route('supervisorAdmin')}}">Técnicos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{{route('listarHD')}}">HD's</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{{route('exibirMapa')}}">Mapa</a>
+                    </li>
                 @endif
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="{{route('logout')}}">Sair</a>

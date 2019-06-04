@@ -40,6 +40,6 @@ class LocationController extends Controller
 
     public function whoIsOnLocation($id){
         $location = Location::findOrFail($id);
-        return $location->tecnicos;
+        return view('location.locationTecnico',compact('location'));
     }
 }

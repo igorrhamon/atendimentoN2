@@ -16,4 +16,8 @@ class Location extends Model
     public function tecnicos(){
         return $this->hasMany('App\Tecnico','location_id');
     }
+//
+//    public function atendimeentos(){
+//        return $this->belongsTo('App\Atendimento','location_id','')
+//    }
 }

@@ -14,7 +14,7 @@
                 @foreach($location->tecnicos as $tecnico)
                     {{$tecnico->user->name}}<BR>
                     @isset($tecnico->ultimoAtendimentoAberto->first()->numeroChamado)
-                        {!! $tecnico->ultimoAtendimentoAberto->first()->numeroChamado !!}<BR>
+                        <a href="{{url('http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber='.$tecnico->ultimoAtendimentoAberto->first()->numeroChamado)}}" target="_blank">{!! $tecnico->ultimoAtendimentoAberto->first()->numeroChamado !!}</a><BR>
                     @endisset
                     @isset($tecnico->ultimoAtendimentoAberto->first()->hardDrive)
                         HD: HE{{$tecnico->ultimoAtendimentoAberto->first()->hardDrive->endLog}}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Location;
 use App\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,31 @@ class NewController extends Controller
         DB::table('news_tecnico')->insert(['news_id'=>$new->id,'tecnico_id'=>Auth::user()->tecnico->id]);
 //        $noRead = new NewController();
         $naoLidas = $this->noRead(Auth::id());
-        return view('news.openNew',compact('new','naoLidas'));
+        $user = Auth::user();
+
+        /*
+         * Verifica o ultimo atendimento do usuário
+         * Caso não haja atendimento hoje, o tempo de Atendimento é zerado.
+         */
+        $atendimentoController = new AtendimentoController();
+        $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
+
+        if($user->tecnico->status == 1) $atendimento = $user->tecnico->atendimentosHoje->last();
+
+        /*
+         * Json para gerar os gráficos
+         */
+        $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
+//        return $AnyChartJson;
+
+        /*
+         * @todo: O relacionamento entre location_id e tecnico não está funcionando corretamente
+         */
+        $location = Location::findOrFail($user->tecnico->location_id);
+        $tempoAtendimentoHoje = $user->tecnico->tempoDeAtendimento;
+
+
+        return view('news.openNew',compact('new','naoLidas','location','tempoAtendimentoHoje','atendimento','AnyChartJson'));
     }
 
     public function createNewForm(){

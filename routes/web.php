@@ -92,6 +92,8 @@ Route::get('/adminPainel','HomeController@supervisorAdmin')->name('supervisorAdm
 
 Route::get('/tempoTotal','AtendimentoController@tempoPorTecnicoPorcentagem')->name('tempoTotal');
 
+Route::get('/mapa','HomeController@exibirMapa')->name('exibirMapa');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
