@@ -13,18 +13,21 @@
                         <th>Nome</th>
                         <th>Chamado</th>
                         <th>HD</th>
-                        <th>Chamado</th>
                         <th>Inicio Atendimento</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($location->tecnicos as $tecnico)
+                @foreach($atendimentos as $atendimento)
                     <tr>
-                        <td>{{$tecnico->user->name}}</td>
-                        <td>{{$tecnico->location->name}}</td>
-                        <td>HE{{$tecnico->atendimentos->last()->hardDrive->endLog}}</td>
-                        <td><a href="{{url('http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber='.$tecnico->ultimoAtendimentoAberto->first()->numeroChamado)}}" target="_blank">{{$tecnico->ultimoAtendimentoAberto->first()->numeroChamado}}</a></td>
-                        <td>{{$tecnico->atendimentos->last()->inicioAtendimento}}</td>
+                        <td>{{$atendimento->tecnico->user->name}}</td>
+                        <td><a href="{{url('http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber='.$atendimento->numeroChamado)}}" target="_blank">{{$atendimento->numeroChamado}}</a></td>
+                        <td>
+                            @if(!empty($atendimento->hardDrive))
+                                {{$atendimento->hardDrive->endLog}}
+                            @endif
+                        </td>
+{{--                        <td>HE{{$atendimento->hardDrive->endLog ? "HE".$atendimento->hardDrive->endLog : "Sem HD" }}</td>--}}
+                        <td>{{$atendimento->inicioAtendimento}}</td>
                     </tr>
                 @endforeach
                 </tbody>

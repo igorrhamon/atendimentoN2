@@ -11,6 +11,9 @@
 |
 */
 
+use App\Events\pusherEvent;
+use App\Http\Middleware\IsAdmin;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,7 +36,7 @@ Route::post('/editTecnico/','TecnicoController@editTecnico')->name('editTecnico'
 Route::get('/changeStatus','TecnicoController@changeStatusForm')->name('changeStatus');
 Route::post('/changeStatus','TecnicoController@changeStatus')->name('changeStatus');
 
-Route::get('/IsAvaliable','TecnicoController@showWhoIsAvaliable')->name('showWhoIsAvaliable');
+Route::get('/IsAvaliable','HomeController@showWhoIsAvaliable')->name('showWhoIsAvaliable');
 
 Route::get('/newsRead/{id}','TecnicoController@newsRead')->name('newsRead');
 
@@ -42,49 +45,52 @@ Route::post('/iniciarAtendimento/','AtendimentoController@iniciarAtendimento')->
 Route::get('/encerrarAtendimento/{idAtendimento}','AtendimentoController@encerraAtendimento')->name('encerraAtendimento');
 
 
+Route::get('/openTecnico/{id}','TecnicoController@viewTecnico')->name('abrirTecnicoProfile');
+
+
 /*
  * HD
  */
-Route::get('/hd','HardDriveController@listarHD')->name('listarHD');
-Route::get('/receberHd/{id}','HardDriveController@receberHD')->name('receberHD');
+Route::get('/hd','HardDriveController@listarHD')->name('listarHD')->middleware(IsAdmin::class);
+Route::get('/receberHd/{id}','HardDriveController@receberHD')->name('receberHD')->middleware(IsAdmin::class);
 
 
 /*
  * New
  */
 Route::get('/new/{id}','NewController@openNewTecnico')->name('openNewTecnico');
-Route::get('/manageNews','NewController@manageNews')->name('manageNews');
-Route::get('/createNew/','NewController@createNewForm')->name('createNew');
-Route::post('/createNew/','NewController@createNew')->name('createNew');
+Route::get('/manageNews','NewController@manageNews')->name('manageNews')->middleware(IsAdmin::class);
+Route::get('/createNew/','NewController@createNewForm')->name('createNew')->middleware(IsAdmin::class);
+Route::post('/createNew/','NewController@createNew')->name('createNew')->middleware(IsAdmin::class);
 
-Route::get('/editNew/{id}','NewController@editNewForm')->name('editNew');
-Route::post('/editNew/','NewController@editNew')->name('editNew');
+Route::get('/editNew/{id}','NewController@editNewForm')->name('editNew')->middleware(IsAdmin::class);
+Route::post('/editNew/','NewController@editNew')->name('editNew')->middleware(IsAdmin::class);
 
-Route::delete('/deleteNew/{id}','NewController@deleteNew')->name('deleteNew');
+Route::delete('/deleteNew/{id}','NewController@deleteNew')->name('deleteNew')->middleware(IsAdmin::class);
 //Route::post('/deleteNew/','NewController@deleteNew')->name('deleteNew');
 
 Route::get('/homeNews','HomeController@index')->name('showAllNews');
 Route::get('/homeNewsNaoLido','HomeController@index')->name('indexNaoLido');
-Route::get('/news/whoRead/{id}','NewController@noRead')->name('whoRead');
+Route::get('/news/whoRead/{id}','NewController@noRead')->name('whoRead')->middleware(IsAdmin::class);
 
 
 /*
  * Location
  */
 
-Route::get('/createLocation/','LocationController@createLocationForm')->name('createLocation');
-Route::post('/createLocation/','LocationController@createLocation')->name('createLocation');
+Route::get('/createLocation/','LocationController@createLocationForm')->name('createLocation')->middleware(IsAdmin::class);
+Route::post('/createLocation/','LocationController@createLocation')->name('createLocation')->middleware(IsAdmin::class);
 
-Route::get('/editLocation/{id}','LocationController@editLocationForm')->name('editLocation');
-Route::post('/editLocation/','LocationController@editLocation')->name('editLocation');
-
-
-Route::get('/deleteLocation/','LocationController@deleteLocationForm')->name('deleteLocation');
-Route::post('/deleteLocation/','LocationController@deleteLocation')->name('deleteLocation');
+Route::get('/editLocation/{id}','LocationController@editLocationForm')->name('editLocation')->middleware(IsAdmin::class);
+Route::post('/editLocation/','LocationController@editLocation')->name('editLocation')->middleware(IsAdmin::class);
 
 
-Route::get('/tecnicosLocation/{id}','LocationController@whoIsOnLocation')->name('whoIsOnLocation');
-Route::get('/adminPainel','HomeController@supervisorAdmin')->name('supervisorAdmin');
+Route::get('/deleteLocation/','LocationController@deleteLocationForm')->name('deleteLocation')->middleware(IsAdmin::class);
+Route::post('/deleteLocation/','LocationController@deleteLocation')->name('deleteLocation')->middleware(IsAdmin::class);
+
+
+Route::get('/tecnicosLocation/{id}','LocationController@whoIsOnLocation')->name('whoIsOnLocation')->middleware(IsAdmin::class);
+Route::get('/adminPainel','HomeController@supervisorAdmin')->name('supervisorAdmin')->middleware(IsAdmin::class);
 
 /*
  *  Atendimento
@@ -92,7 +98,15 @@ Route::get('/adminPainel','HomeController@supervisorAdmin')->name('supervisorAdm
 
 Route::get('/tempoTotal','AtendimentoController@tempoPorTecnicoPorcentagem')->name('tempoTotal');
 
-Route::get('/mapa','HomeController@exibirMapa')->name('exibirMapa');
+Route::get('/mapa','HomeController@exibirMapa')->name('exibirMapa')->middleware(IsAdmin::class);
+
+/*
+ * Testes
+ */
+
+//Route::get('/testeId',function (){
+//   return view('testeId');
+//});
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

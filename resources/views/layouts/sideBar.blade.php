@@ -1,8 +1,9 @@
 
 <div class="row my-2 p-1">
     <div class="col-md-12">
-        {{--                        @if(!Auth::user()->isAdmin())--}}
-        @include('layouts.infoAtendimento')
+        @if(!Auth::user()->isAdmin())
+                @include('layouts.infoAtendimento')
+        @endif
     </div>
 </div>
 @isset($nãoLidas)
@@ -24,6 +25,8 @@
 </div>
 <div class="row my-2 p-1">
     <div class="col-md-12">
-        @includeWhen(isset($AnyChartJson),'layouts.chartLayout')
+        @if(!Auth::user()->isAdmin())
+            @include('layouts.chartLayout')
+        @endif
     </div>
 </div>

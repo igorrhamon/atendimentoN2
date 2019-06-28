@@ -1,6 +1,7 @@
 @extends('news.layout.homeNewsLayout')
 
 @section('news')
+
     @foreach($news as $new)
         <div class="row">
             <div class="col-md-12">
@@ -27,4 +28,51 @@
 @endsection
 @section('anyChart')
 
+@endsection
+
+@section('script')
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+
+    @if(Auth::user()->isAdmin()))
+        <script>
+
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('b482df66d9836d1f97b5', {
+                cluster: 'mt1',
+                forceTLS: true
+            });
+
+            var channel = pusher.subscribe('my-channel');
+            channel.bind('formSender', function(data) {
+                if (!Notification) {
+                    alert('Desktop notifications not available in your browser. Try Chrome.');
+                    return;
+                }
+
+                if (Notification.permission !== "granted")
+                    Notification.requestPermission();
+                else {
+                    var notification = new Notification(data.mensagem, {
+                        icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+                        body: "Técnico Disponível",
+                    });
+
+                    notification.onclick = function () {
+                        window.open("http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber=".data.atendimento.numeroChamado);
+                    };
+
+                }
+            });
+        </script>
+    @endif
+
+    <script>
+        window.Laravel = {!! json_encode([
+      'csrfToken' => csrf_token(),
+    ]) !!};
+    </script>
 @endsection

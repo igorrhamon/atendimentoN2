@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\encerrarAtendimento;
+use App\Events\inicioAtendimento;
+use App\Events\pusherEvent;
 use App\HardDrive;
-use App\Http\Requests\AtendimentoRequest;
+use App\Http\Requests\IniciarAtendimentoRequest;
 use function foo\func;
 use Notification;
 use App\Atendimento;
@@ -25,29 +28,34 @@ class AtendimentoController extends Controller
         $hardDrives = HardDrive::all()->where('avaliable', '=',TRUE);
         return view('tecnicos.iniciarAtendimento',compact('locations','tecnico','hardDrives'));
     }
-    public function iniciarAtendimento(AtendimentoRequest $request){
+    public function iniciarAtendimento(IniciarAtendimentoRequest $request){
         $tecnico = Auth::user()->tecnico;
         $tecnico->status = 1;
         $dataDoAtendimento = date('Y-m-d', strtotime(now()));
         $inicioAtendimento = date('H:i:s', strtotime(now()));
         $atendimento = new Atendimento();
 //        $tecnico = $this->atualizaTempoAtendimento($tecnico);
-        $tecnico->location_id = intval($request->location_id) ;
-        $tecnico->update();
-
-        $hardDrive = HardDrive::findOrFail($request->hardDrive_id);
-        $hardDrive->avaliable = FALSE;
-        $hardDrive->user_id = $tecnico->user->id;
-//        return $hardDrive;
-        $hardDrive->save();
 
         $atendimento->inicioAtendimento = $inicioAtendimento;
         $atendimento->dataDoAtendimento = $dataDoAtendimento;
         $atendimento->tecnico_id = $tecnico->id;
         $atendimento->numeroChamado = $request->numeroChamado;
-        $atendimento->hardDrive_id = $request->hardDrive_id;
-//        return $atendimento;
+
+
+
+        if($request->hardDrive_id != NULL){
+            $hardDrive = HardDrive::findOrFail($request->hardDrive_id);
+            $hardDrive->avaliable = FALSE;
+            $hardDrive->user_id = $tecnico->user->id;
+            $hardDrive->save();
+            $atendimento->hardDrive_id = $request->hardDrive_id;
+        }
+        $tecnico->update();
         $atendimento->save();
+        $atendimento->locations()->sync(intval($request->location_id));
+        broadcast(new inicioAtendimento($atendimento));
+
+
         return redirect('homeNews');
     }
 
@@ -55,22 +63,22 @@ class AtendimentoController extends Controller
         $tecnico = Auth::user()->tecnico;
         $tecnico->status = 0;
         $atendimento = Atendimento::findOrFail($idAtendimento);
-        $hardDrive = HardDrive::findOrFail($atendimento->hardDrive_id);
-        $hardDrive->avaliable = TRUE;
-
-//        @todo: Quando o supervisor atestar a entraga do HD, ele será o responsável.
-        $hardDrive->user_id = 1;
-        $hardDrive->save();
+        if($atendimento->hardDrive != NULL){
+            $hardDrive = $atendimento->hardDrive;
+            $hardDrive->avaliable = TRUE;
+            $hardDrive->save();
+        }
         $atendimento->fimAtendimento = date('H:i:s', strtotime(now()));
         $atendimento->tempoDeAtendimento = $this->calculaTempoAtendimento($atendimento->inicioAtendimento,$atendimento->fimAtendimento);
         $atendimento->dataDoAtendimento = date("Y-m-d",strtotime(now()));
         $tecnico = $this->atualizaTempoAtendimento($tecnico);
-        $tecnico->location_id = 1;
 
         $supervisores = Supervisor::findOrFail(1);
         $atendimento->save();
         $tecnico->save();
         $supervisores->notify(new TecnicoAvaliable($atendimento));
+
+        broadcast(new encerrarAtendimento($atendimento));
 
         return redirect('homeNews');
     }

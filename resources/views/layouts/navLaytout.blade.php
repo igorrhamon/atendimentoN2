@@ -18,6 +18,9 @@
                     <li class="nav-item">
                         <a class="nav-link mx-2" href="{{route('exibirMapa')}}">Mapa</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{{route('showWhoIsAvaliable')}}">Técnicos Disponíveis</a>
+                    </li>
                 @endif
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="{{route('logout')}}">Sair</a>

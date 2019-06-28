@@ -14,7 +14,10 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.5.0",
-        "tcg/voyager": "^1.2"
+        "pusher/pusher-php-server": "3.4.1",
+        "tcg/voyager": "^1.2",
+        "cornford/googlmapper": "2.*"
+
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -13,7 +13,6 @@
         </thead>
         <tbody>
         @foreach($HDs as $HD)
-
             <tr>
                 <th>{{$HD->id}}</th>
                 <td>{{$HD->endLog}}</td>
@@ -23,11 +22,11 @@
                 </td>
                 <td>
                     @if(!($HD->avaliable))
-                        <a class="btn btn-secondary btn-sm" href="{{route('receberHD',$HD->id)}}" role="button">Receber</a>
+                        <a class="btn btn-secondary btn-sm" href="{{route('receberHD',$HD->id)}}" role="button">
+                            Receber
+                        </a>
                     @endif
                 </td>
-
-
             </tr>
         @endforeach
         </tbody>

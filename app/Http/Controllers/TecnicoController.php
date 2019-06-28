@@ -6,6 +6,9 @@ use App\Location;
 use App\News;
 use App\Tecnico;
 use App\User;
+use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -131,17 +134,14 @@ class TecnicoController extends Controller
         return view('listTecnicos', compact('tecnicos'));
     }
 
-    public function showWhoIsAvaliable(){
-        $tecnicos = Tecnico::all()->where('status','=','0');
-        return $tecnicos;
-    }
+
 
     /*
      * @todo: Criar uma VIEW para ver o tecnico
      */
     public function viewTecnico($id){
         $tecnico = Tecnico::findOrFail($id);
-        echo "Novo tecnico criado";
+        return view('tecnicos.openTecnico',compact('tecnico'));
     }
 
 

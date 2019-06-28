@@ -174,6 +174,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+        Cornford\Googlmapper\MapperServiceProvider::class,
 
 
         // App\Providers\BroadcastServiceProvider::class,
@@ -232,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Voyager'=>TCG\Voyager\VoyagerServiceProvider::class,
+        'Mapper'=> Cornford\Googlmapper\Facades\MapperFacade::class,
 
     ],
 

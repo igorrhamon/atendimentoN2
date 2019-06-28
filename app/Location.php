@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     protected $fillable = [
-        'id', 'name', 'address','supervisor_id'
+        'id', 'name', 'address','supervisor_id','latitude','longitude'
     ];
 
     public function supervisor(){
@@ -16,8 +16,7 @@ class Location extends Model
     public function tecnicos(){
         return $this->hasMany('App\Tecnico','location_id');
     }
-//
-//    public function atendimeentos(){
-//        return $this->belongsTo('App\Atendimento','location_id','')
-//    }
+    public function atendimentos(){
+        return $this->belongsToMany('App\Atendimento');
+    }
 }

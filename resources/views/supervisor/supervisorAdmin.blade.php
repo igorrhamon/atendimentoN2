@@ -11,13 +11,18 @@
     <div class="tab-content">
         @foreach($locations as $location)
             <div class="tab-pane fade @if($loop->first) show active @endif" id="location{{$location->id}}" role="tabpanel">
-                @foreach($location->tecnicos as $tecnico)
-                    {{$tecnico->user->name}}<BR>
-                    @isset($tecnico->ultimoAtendimentoAberto->first()->numeroChamado)
-                        <a href="{{url('http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber='.$tecnico->ultimoAtendimentoAberto->first()->numeroChamado)}}" target="_blank">{!! $tecnico->ultimoAtendimentoAberto->first()->numeroChamado !!}</a><BR>
+                @foreach($location->atendimentos as $atendimento)
+                    {{$atendimento->tecnico->user->name}}<BR>
+                    @isset($atendimento->tecnico->ultimoAtendimentoAberto->first()->numeroChamado)
+                        <a href="{{url('http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber='.
+                            $atendimento->tecnico->ultimoAtendimentoAberto->first()->numeroChamado)}}"
+                        target="_blank">
+                            {!! $atendimento->tecnico->ultimoAtendimentoAberto->first()->numeroChamado !!}
+                        </a>
+                        <BR>
                     @endisset
-                    @isset($tecnico->ultimoAtendimentoAberto->first()->hardDrive)
-                        HD: HE{{$tecnico->ultimoAtendimentoAberto->first()->hardDrive->endLog}}
+                    @isset($atendimento->tecnico->ultimoAtendimentoAberto->first()->hardDrive)
+                        HD: HE{{$atendimento->tecnico->ultimoAtendimentoAberto->first()->hardDrive->endLog}}
                     @endisset
                 @endforeach
             </div>

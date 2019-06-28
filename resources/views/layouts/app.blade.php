@@ -76,5 +76,6 @@
             @yield('content')
         </main>
     </div>
+    {!! Mapper::renderJavascript(); !!}
 </body>
 </html>

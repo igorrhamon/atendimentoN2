@@ -79,7 +79,7 @@ class NewController extends Controller
 
     public function noRead($id){
         $news = News::whereDoesntHave('whoRead' ,function($query){
-            $query->where('tecnico_id',Auth::user()->tecnico->id);
+            $query->where('tecnico_id','=',Auth::user()->tecnico->id);
         })->get();
         return $news;
     }

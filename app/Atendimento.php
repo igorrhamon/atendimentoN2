@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Atendimento extends Model
 {
     protected $fillable = [
-        'tecnico_id', 'inicioAtendimento', 'fimAtendimento','tempoDeAtendimento' ,'dataDoAtendimento','numeroChamado','hardDrive_id','hardDriveRecebido'
+        'tecnico_id', 'inicioAtendimento', 'fimAtendimento','tempoDeAtendimento' ,'dataDoAtendimento','numeroChamado','hardDrive_id','hardDriveRecebido', 'location_id'
     ];
 
     public function tecnico(){
@@ -16,5 +16,9 @@ class Atendimento extends Model
 
     public function hardDrive(){
         return $this->hasOne('App\HardDrive','id','hardDrive_id');
+    }
+
+    public function locations(){
+        return $this->belongsToMany('App\Location');
     }
 }

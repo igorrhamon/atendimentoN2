@@ -20,11 +20,15 @@
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
-        "vue": "^2.5.17",
+        "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
         "froala-editor": "^3.0.0-beta.2-1",
+        "laravel-echo": "^1.5.4",
+        "prettier": "^1.12.1",
+        "push.js": "^1.0.9",
+        "pusher-js": "^4.4.0",
         "vuex": "^3.1.1"
     }
 }
