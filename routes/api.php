@@ -17,4 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/message', 'MessageController@store');
+Route::get('/tecnicos', 'TecnicoController@tecnicosVue');
+Route::get('/tecnicosOrdena', 'TecnicoController@tecnicosVueOrdenado');
+
+Route::get('/infinityTecnicos','TecnicoController@tecnicoInfinity');

@@ -1,7 +1,22 @@
 <!-- ./resources/assets/js/components/Home.vue -->
 <template>
     <div class="container">
-
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th><a href="#" >Tempo de Atendimento</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="post in posts" >
+                <td>{{ post.id }}</td>
+                <td>{{ post.user.name }}</td>
+                <td>{{ post.tempoDeAtendimento}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -9,38 +24,22 @@
     export default {
         data() {
             return {
-                newPostTitle: "",
-                newPostDesc: ""
+                posts: []
             }
         },
-        created() {
-            this.listenForChanges();
+        mounted() {
+            console.log('Teste');
+            let uri = 'http://127.0.0.1:8000/api/tecnicos';
+            this.axios.get(uri).then(response => {
+                this.posts = response.data.data;
+            });
         },
         methods: {
-
-            listenForChanges() {
-
-                Echo.channel('my-channel')
-                    .listen('formSender', (e) => {
-                        if (!Notification) {
-                            alert('Desktop notifications not available in your browser. Try Chromium.');
-                            return;
-                        }
-
-                        if (Notification.permission !== "granted")
-                            Notification.requestPermission();
-                        else {
-                            var notification = new Notification('Notification title', {
-                                icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-                                body: "Hey there! You've been notified!",
-                            });
-
-                            notification.onclick = function () {
-                                window.open("http://stackoverflow.com/a/13328397/1269037");
-                            };
-
-                        }
-                    })
+            ordena(){
+                let uri = url('api/tecnicosOrdena');
+                this.axios.get(uri).then(response =>{
+                   this.posts = response.data.data;
+                });
             }
         }
     }

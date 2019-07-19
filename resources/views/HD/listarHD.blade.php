@@ -16,7 +16,6 @@
             <tr>
                 <th>{{$HD->id}}</th>
                 <td>{{$HD->endLog}}</td>
-                {{--                    @todo: Verificar o porquê route não está gerando a URL correta--}}
                 <td>
                     @isset($HD->user->name) {{$HD->user->name}} @endisset
                 </td>

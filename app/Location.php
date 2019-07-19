@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
@@ -17,6 +18,11 @@ class Location extends Model
         return $this->hasMany('App\Tecnico','location_id');
     }
     public function atendimentos(){
-        return $this->belongsToMany('App\Atendimento');
+        return $this->hasMany('App\Atendimento');
+    }
+    public function atendimentosDeHojeAbertos(){
+        return $this->hasMany('App\Atendimento')
+            ->where('dataDoAtendimento','=',Carbon::now('America/Sao_Paulo')->format('Y-m-d'))
+            ->where('fimAtendimento','=',NULL);
     }
 }

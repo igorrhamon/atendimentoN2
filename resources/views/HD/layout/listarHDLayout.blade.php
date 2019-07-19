@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="col-4">
-                @include('layouts.menuLateralLayout')
+                @include('layouts.sideBar')
             </div>
         </div>
     </div>

@@ -13,6 +13,8 @@
 
 use App\Events\pusherEvent;
 use App\Http\Middleware\IsAdmin;
+use App\News;
+use Carbon\Carbon;
 
 Route::get('/', function () {
     return view('welcome');
@@ -104,13 +106,14 @@ Route::get('/mapa','HomeController@exibirMapa')->name('exibirMapa')->middleware(
  * Testes
  */
 
-//Route::get('/testeId',function (){
-//   return view('testeId');
-//});
+Route::get('/teste',function (){
+
+    return view('vue');
+});
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
 
-
 });
+

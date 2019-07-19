@@ -28,7 +28,6 @@ class IniciarAtendimentoRequest extends FormRequest
     {
         return [
             'hardDrive_id' => 'nullable',
-//            @todo: Número do chamado está aceitando ocorrencias com número menor que 16;
             'numeroChamado' =>'digits:16',
             'location_id' => 'required'
         ];
@@ -38,7 +37,7 @@ class IniciarAtendimentoRequest extends FormRequest
         return [
             'numeroChamado.required' => 'Obrigatório o preenchimento do Número do Chamado',
             'numeroChamado.max' => 'Número do Chamado pode ter no máximo 16 números',
-            'numeroChamado.digits' => 'Número do Chamado pode ter no máximo 16 números',
+            'numeroChamado.digits' => 'Número do Chamado deve ter 16 números',
             'numeroChamado.numeric' => 'Número do Chamado deve conter somente números',
             'location_id.required'  => 'Escolha a localização de seu próximo atendimento',
         ];

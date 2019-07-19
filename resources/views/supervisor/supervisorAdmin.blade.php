@@ -11,18 +11,18 @@
     <div class="tab-content">
         @foreach($locations as $location)
             <div class="tab-pane fade @if($loop->first) show active @endif" id="location{{$location->id}}" role="tabpanel">
-                @foreach($location->atendimentos as $atendimento)
+                @foreach($location->atendimentosDeHojeAbertos->where('fimAtendimento',NULL) as $atendimento)
                     {{$atendimento->tecnico->user->name}}<BR>
-                    @isset($atendimento->tecnico->ultimoAtendimentoAberto->first()->numeroChamado)
+                    @isset($atendimento->numeroChamado)
                         <a href="{{url('http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber='.
-                            $atendimento->tecnico->ultimoAtendimentoAberto->first()->numeroChamado)}}"
+                            $atendimento->numeroChamado)}}"
                         target="_blank">
-                            {!! $atendimento->tecnico->ultimoAtendimentoAberto->first()->numeroChamado !!}
+                            {!! $atendimento->numeroChamado !!}
                         </a>
                         <BR>
                     @endisset
-                    @isset($atendimento->tecnico->ultimoAtendimentoAberto->first()->hardDrive)
-                        HD: HE{{$atendimento->tecnico->ultimoAtendimentoAberto->first()->hardDrive->endLog}}
+                    @isset($atendimento->hardDrive)
+                        HD: HE{{$atendimento->hardDrive->endLog}}
                     @endisset
                 @endforeach
             </div>

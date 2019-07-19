@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Atendimento;
+use Carbon\Carbon;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class inicioAtendimento implements ShouldBroadcast
+class encerrarAtendimento implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,17 +22,14 @@ class inicioAtendimento implements ShouldBroadcast
      * @return void
      */
     public $title;
-    public $atendimento;
-    public $location;
     public $body;
+    public $idLocation;
 
     public function __construct(Atendimento $atendimento)
     {
-        $this->title =
-            'O Técnico '.    $atendimento->tecnico->user->name.
-            ' iniciou o atendimento';
-        $this->body = "Localização: ".$atendimento->location->name;
-        $this->location = $atendimento->location;
+
+        $this->title = "O Técnico ".$atendimento->tecnico->user->name." terminou o atendimento";
+        $this->body = "Tempo de atendimento: ".$atendimento->tempoDeAtendimento;
     }
 
     /**

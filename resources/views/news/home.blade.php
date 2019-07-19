@@ -12,8 +12,7 @@
             <div class="col-md-12">
                 <ul class="list-inline">
                     <li class="list-inline-item">{{$new->supervisor->user->name}}<br></li>
-{{--                    @todo: Data da Criação está incorreta--}}
-                    <li class="list-inline-item ">{{$new->created_at}}</li>
+                    <li class="list-inline-item ">{{$new->criadoEm}}</li>
                 </ul>
             </div>
         </div>
@@ -36,38 +35,40 @@
     <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
 
     @if(Auth::user()->isAdmin()))
-        <script>
+{{--        <script>--}}
 
-            // Enable pusher logging - don't include this in production
-            Pusher.logToConsole = true;
+{{--            // Enable pusher logging - don't include this in production--}}
+{{--            Pusher.logToConsole = true;--}}
 
-            var pusher = new Pusher('b482df66d9836d1f97b5', {
-                cluster: 'mt1',
-                forceTLS: true
-            });
+{{--                var pusher = new Pusher('b482df66d9836d1f97b5', {--}}
+{{--                    cluster: 'mt1',--}}
+{{--                    forceTLS: true--}}
+{{--                });--}}
 
-            var channel = pusher.subscribe('my-channel');
-            channel.bind('formSender', function(data) {
-                if (!Notification) {
-                    alert('Desktop notifications not available in your browser. Try Chrome.');
-                    return;
-                }
+{{--                var channel = pusher.subscribe('my-channel');--}}
+{{--                channel.bind('formSender', function(data) {--}}
+{{--                    if (!Notification) {--}}
+{{--                        alert('Desktop notifications not available in your browser. Try Chrome.');--}}
+{{--                        return;--}}
+{{--                    }--}}
 
-                if (Notification.permission !== "granted")
-                    Notification.requestPermission();
-                else {
-                    var notification = new Notification(data.mensagem, {
-                        icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-                        body: "Técnico Disponível",
-                    });
+{{--                    if (Notification.permission !== "granted")Notification.requestPermission();--}}
 
-                    notification.onclick = function () {
-                        window.open("http://capri.senado.gov.br/otrs/index.pl?Action=AgentTicketZoom;TicketNumber=".data.atendimento.numeroChamado);
-                    };
 
-                }
-            });
-        </script>
+{{--                    else {--}}
+{{--                        var notification = new Notification(data.title, {--}}
+{{--                            icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',--}}
+{{--                            body: data.body--}}
+{{--                        });--}}
+{{--                        //@todo: Ativiar o onClick. Ele não lê o númro do chamado--}}
+
+{{--                    notification.onclick = function () {--}}
+{{--                        window.open('/adminPainel');--}}
+{{--                    };--}}
+
+{{--                    }--}}
+{{--                });--}}
+{{--        </script>--}}
     @endif
 
     <script>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tecnico extends Model
 {
     protected $fillable = [
-        'status', 'user_id','remember_token','lunchTime','officeTime', 'tempoDeAtendimento',
+        'status', 'user_id','remember_token','lunchTime','officeTime', 'tempoDeAtendimento','lastLocation_id'
     ];
 
     protected $hidden = ['password'];
@@ -41,5 +41,8 @@ class Tecnico extends Model
             ->where('dataDoAtendimento','==',date('Y-m-d',strtotime("-1 days")))
 //            ->where('fimAtendimento','=',NULL)
             ;
+    }
+    public function lastLocation(){
+        return $this->hasOne('App\Location','id','lastLocation_id');
     }
 }

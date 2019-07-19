@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/N2.iml" filepath="$PROJECT_DIR$/.idea/N2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../VueLaravelCrudSPA-master/.idea/VueLaravelCrudSPA-master.iml" filepath="$PROJECT_DIR$/../VueLaravelCrudSPA-master/.idea/VueLaravelCrudSPA-master.iml" />
     </modules>
   </component>
 </project>

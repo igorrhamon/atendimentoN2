@@ -54,12 +54,17 @@ class LoginController extends Controller
             ->where('fimAtendimento','=',NULL)
             ->where('created_at','>=',date('Y-m-d',strtotime("-3 days")))
             ->where('created_at','<',date('Y-m-d',strtotime(now())))
-            ->where('tecnico_id','=', Auth::id());
-        foreach ($atendimentosAbertos as $atendimento){
-            $atendimento->fimAtendimento = $atendimento->inicioAtendimento;
-            $atendimento->tempoDeAtendimento="00:00:00";
-            $atendimento->save();
-        };
+            ->where('tecnico_id','=', $tecnico->id);
+        if($atendimentosAbertos->count()){
+
+            foreach ($atendimentosAbertos as $atendimento){
+
+                $atendimento->fimAtendimento = $atendimento->inicioAtendimento;
+                $atendimento->tempoDeAtendimento="00:00:00";
+                $atendimento->save();
+            };
+            $tecnico->status = 0;
+        }
         $atendimentoController = new AtendimentoController();
         $atendimentoController->atualizaTempoAtendimento($tecnico);
         $tecnico->save();

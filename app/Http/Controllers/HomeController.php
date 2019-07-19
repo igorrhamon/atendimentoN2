@@ -7,9 +7,8 @@ use App\News;
 use App\Tecnico;
 use App\User;
 use Carbon\Carbon;
+use function foo\func;
 use Mapper;
-use DateTime;
-use Illuminate\Http\Request;
 use App\Location;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,8 +31,10 @@ class HomeController extends Controller
         //Transforma o created_at
         Carbon::setLocale('pt-br');
         $news->transform(function ($item,$key){
-           $item['created_at'] = Carbon::createFromFormat('Y-m-d H:m:s', $item['created_at']);
-           return $item;
+            Carbon::setLocale(config('app.timezone'));
+            $criadoEm = Carbon::parse($item->created_at);
+            $item->criadoEm = $criadoEm->longRelativeToOtherDiffForHumans(Carbon::now());
+            return $item;
         });
 //        return $news;
 
@@ -49,12 +50,11 @@ class HomeController extends Controller
          * Caso não haja atendimento hoje, o tempo de Atendimento é zerado.
          */
         $atendimentoController = new AtendimentoController();
-        $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
+         $atendimentoController->atualizaTempoAtendimentoIndex($user->tecnico);
 
         if($user->tecnico->status == 1){
-//            $atendimento = $user->tecnico->atendimentosHoje->where('fimAtendimento',NULL);
             $atendimento = $user->tecnico->atendimentosHoje->where('fimAtendimento',NULL)->first();
-            $location = $atendimento->locations->first();
+            $location = $user->tecnico->lastLocation;
         }else{
             $location = new Location();
             $location->name= 'Central';
@@ -64,10 +64,6 @@ class HomeController extends Controller
          */
         $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
 //        return $AnyChartJson;
-
-        /*
-         * @todo: O relacionamento entre location_id e tecnico não está funcionando corretamente
-         */
         $tempoAtendimentoHoje = $user->tecnico->tempoDeAtendimento;
 
 
@@ -115,28 +111,18 @@ class HomeController extends Controller
     }
 
 
-//    public function supervisorAdmin(){
-//
-//
-//        $locations = Location::whereHas('tecnicos', function ($query){
-//            $query->where('status','=','1');
-//        })->get();
-//        $tecnicos = Tecnico::all();
-//        $atendimentos = new AtendimentoController();
-//        $atendimentosEmAberto = Atendimento::all()->where('fimAtendimento','=','NULL');
-//        $tempoTotal = $atendimentos->totalAtendimentoHoje();
-//        $AnyChartJson = $atendimentos->tempoPorTecnicoPorcentagem();
-//        return view('supervisor.supervisorAdmin',compact('locations','atendimentos','atendimentosEmAberto','tecnicos','tempoTotal','AnyChartJson'));
-//    }
+
+
+
     public function supervisorAdmin(){
 
-
         $locations = Location::whereHas('atendimentos', function ($query){
-            $query->where('fimAtendimento','=',NULL);
+            $query->where('fimAtendimento',NULL);
+            $query->where('dataDoAtendimento','=',Carbon::now('America/Sao_Paulo')->format('Y-m-d'));
         })->get();
         $tecnicos = Tecnico::all();
         $atendimentos = new AtendimentoController();
-        $atendimentosEmAberto = Atendimento::all()->where('fimAtendimento','=','NULL');
+        $atendimentosEmAberto = Atendimento::all()->where('fimAtendimento','=','NULL')->where('dataDoAtendimento','=',Carbon::now('America/Sao_Paulo')->format('Y-m-d'));
         $tempoTotal = $atendimentos->totalAtendimentoHoje();
         $AnyChartJson = $atendimentos->tempoPorTecnicoPorcentagem();
         return view('supervisor.supervisorAdmin',compact('locations','atendimentos','atendimentosEmAberto','tecnicos','tempoTotal','AnyChartJson'));
@@ -145,9 +131,8 @@ class HomeController extends Controller
     public function exibirMapa(){
         $locations = Location::whereHas('atendimentos', function ($query){
             $query->where('fimAtendimento','=',NULL);
+            $query->where('dataDoAtendimento','=',Carbon::now('America/Sao_Paulo')->format('Y-m-d'));
         })->get();
-//        Mapper::map(-15.7973535, -47.86451608);
-//        Mapper::informationWindow(-15.79620758, -47.86445707, 'Igor', ['markers' => ['animation' => 'DROP']]);
 
         $centralLocation = Location::all()->where('name','=','Central')->first();
         Mapper::map($centralLocation->latitude,$centralLocation->longitude,[
@@ -206,6 +191,10 @@ class HomeController extends Controller
             return $item;
 
         });
+
+
+        $tecnicos = $tecnicos->sortByDesc('updated_at');
+//        return $tecnicos;
         return view('tecnicos.isAvaliable', compact('tecnicos'));
     }
 }

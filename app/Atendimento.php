@@ -21,4 +21,7 @@ class Atendimento extends Model
     public function locations(){
         return $this->belongsToMany('App\Location');
     }
+    public function location(){
+        return $this->hasOne('App\Location','id','location_id');
+    }
 }

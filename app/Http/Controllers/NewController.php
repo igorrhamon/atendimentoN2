@@ -12,9 +12,11 @@ class NewController extends Controller
 {
     public  function openNewTecnico($id){
         $new = News::findOrFail($id);
-        DB::table('news_tecnico')->insert(['news_id'=>$new->id,'tecnico_id'=>Auth::user()->tecnico->id]);
+        $new->whoRead()->sync(Auth::user()->tecnico->id);
+//        DB::table('news_tecnico')->insert(['news_id'=>$new->id,'tecnico_id'=>Auth::user()->tecnico->id]);
 //        $noRead = new NewController();
         $naoLidas = $this->noRead(Auth::id());
+
         $user = Auth::user();
 
         /*
@@ -32,10 +34,7 @@ class NewController extends Controller
         $AnyChartJson = $atendimentoController->tempoPorTecnicoPorcentagem();
 //        return $AnyChartJson;
 
-        /*
-         * @todo: O relacionamento entre location_id e tecnico não está funcionando corretamente
-         */
-        $location = Location::findOrFail($user->tecnico->location_id);
+        $location = $user->tecnico->lastLocation;
         $tempoAtendimentoHoje = $user->tecnico->tempoDeAtendimento;
 
 

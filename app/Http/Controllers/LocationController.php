@@ -50,7 +50,6 @@ class LocationController extends Controller
 //        $location->atendimentos->transform(function ($item, $key) {
 //            if($item->fimAtendimento == NULL) return $item;
 //        });
-//        @todo: Gambiarra !!!!
         $atendimentos = $location->atendimentos->where('fimAtendimento',NULL);
         $atendimentos->transform(function ($item,$key){
            if(empty($item->hardDrive)){

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TecnicoCollection;
 use App\Location;
 use App\News;
 use App\Tecnico;
@@ -27,10 +28,6 @@ class TecnicoController extends Controller
         $users = User::all();
         return view('tecnicos.layout.TecnicoForm',compact('users'));
     }
-
-    /*
-     * @todo: Verificar a necessidade de criar um usuário juntamente com o técnico
-     */
 
     public function storeNewTecnico(Request $newTecnico){
 //        return $newTecnico;
@@ -85,14 +82,6 @@ class TecnicoController extends Controller
         $tecnico = DB::update('UPDATE tecnicos SET tecnicos.name from tecnicos join on users.id = tecnicos.user_id');
     }
 
-    /*
-     * @todo: Verificar segurança do Update
-     */
-    public function changeStatusForm(){
-        $tecnicos = Tecnico::all();
-        return view('stubs.formulario.changeStatusForm',compact('tecnicos'));
-    }
-
     public function changeStatus(Request $request){
         $user = User::findOrFail($request->id);
         $tecnico = tecnico::findorfail($user->tecnico->id);
@@ -145,13 +134,29 @@ class TecnicoController extends Controller
     }
 
 
-    /*
-     * @todo: Verificar o NoRead
-     */
-
     public function noRead($id){
         $tecnico = Tecnico::findOrFail($id);
 
+    }
+
+    public function tecnicosVue(){
+//        return Tecnico::with('user')->get();
+        return new TecnicoCollection(Tecnico::with('user')->get());
+    }
+
+    public function tecnicosVueOrdenado(){
+//        return Tecnico::with('user')->get();
+        return new TecnicoCollection(Tecnico::with('user')->get()->sortBy( function ($tecnico, $key){
+            Carbon::setLocale(config('app.timezone'));
+            $tempoDeAtendimento = Carbon::createFromTimeString($tecnico->tempoDeAtendimento);
+            return $tempoDeAtendimento->diffInSeconds(Carbon::now());
+        }));
+    }
+
+    public function tecnicoInfinity()
+    {
+        $data = Tecnico::orderBy('id')->paginate(10);
+        return response()->json($data);
     }
 
 
